@@ -1,5 +1,5 @@
 using Domain.Examples;
-using Domain.Inquires;
+using Domain.Inquiries;
 using Domain.Offers;
 using FastEndpoints;
 using FastEndpoints.Swagger;

@@ -1,10 +1,10 @@
 using Contracts.Inquiries;
 using Contracts.Users;
-using Services.Endpoints.Inquires;
+using Services.Endpoints.Inquiries;
 using Services.UnitTests.Helpers;
 using Xunit;
 
-namespace Services.UnitTests.Endpoints.Inquires;
+namespace Services.UnitTests.Endpoints.Inquiries;
 
 public class PostCreateInquireAsAnonymousValidatorTests
 {

@@ -3,7 +3,7 @@ using Domain.Users;
 using FluentAssertions;
 using Xunit;
 
-namespace Domain.UnitTests.Inquires;
+namespace Domain.UnitTests.Inquiries;
 
 public class InquireCreationTests
 {

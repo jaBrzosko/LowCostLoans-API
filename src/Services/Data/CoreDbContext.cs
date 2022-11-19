@@ -1,5 +1,5 @@
 using Domain.Examples;
-using Domain.Inquires;
+using Domain.Inquiries;
 using Domain.Offers;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ public class CoreDbContext : DbContext
     {
         ConfigureExamples(modelBuilder);
         ConfigureUsers(modelBuilder);
-        ConfigureInquires(modelBuilder);
+        ConfigureInquiries(modelBuilder);
         ConfigureOfferTemplates(modelBuilder);
     }
 
@@ -48,7 +48,7 @@ public class CoreDbContext : DbContext
         });
     }
     
-    private static void ConfigureInquires(ModelBuilder modelBuilder)
+    private static void ConfigureInquiries(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Inquire>(cfg =>
         {

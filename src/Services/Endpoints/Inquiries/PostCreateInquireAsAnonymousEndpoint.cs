@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Services.Data.DataMappers;
 using Services.Data.Repositories;
 
-namespace Services.Endpoints.Inquires;
+namespace Services.Endpoints.Inquiries;
 
-[HttpPost("/inquires/createInquireAsAnonymous")]
+[HttpPost("/inquiries/createInquireAsAnonymous")]
 [AllowAnonymous]
 public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAsAnonymous>
 {

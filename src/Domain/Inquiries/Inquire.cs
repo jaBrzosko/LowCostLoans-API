@@ -1,6 +1,6 @@
 using Domain.Users;
 
-namespace Domain.Inquires;
+namespace Domain.Inquiries;
 
 public class Inquire
 {

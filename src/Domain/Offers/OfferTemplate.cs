@@ -47,7 +47,7 @@ public class OfferTemplate
         }
         if(maximumNumberOfInstallments < minimumNumberOfInstallments)
         {
-            throw new ArgumentException("MaximumNumberOfInstallments cannot be lower than MinimumNumberOfINstallments");
+            throw new ArgumentException("MaximumNumberOfInstallments cannot be lower than MinimumNumberOfInstallments");
         }
 
         if (interestRate < 0)
