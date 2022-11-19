@@ -14,7 +14,8 @@ public class OfferTemplate
     public OfferTemplate(int minimumMoneyInSmallestUnit, int maximumMoneyInSmallestUnit,
         int minimumNumberOfInstallments, int maximumNumberOfInstallments, int interestRate)
     {
-        Validate(minimumMoneyInSmallestUnit, minimumNumberOfInstallments, interestRate);
+        Validate(minimumMoneyInSmallestUnit, maximumMoneyInSmallestUnit,
+            minimumNumberOfInstallments, maximumNumberOfInstallments, interestRate);
 
         Id = Guid.NewGuid();
         MinimumMoneyInSmallestUnit = minimumMoneyInSmallestUnit;
@@ -25,17 +26,27 @@ public class OfferTemplate
         CreationTime = DateTime.UtcNow;
     }
 
-    private static void Validate(int minimumMoneyInSmallestUnit, int minimumNumberOfInstallments, int interestRate)
+    private static void Validate(int minimumMoneyInSmallestUnit, int maximumMoneyInSmallestUnit,
+        int minimumNumberOfInstallments, int maximumNumberOfInstallments, int interestRate)
     {
         if (minimumMoneyInSmallestUnit <= 0)
         {
             throw new ArgumentException("Money has to be positive");
         }
-
+        if(maximumMoneyInSmallestUnit < minimumMoneyInSmallestUnit)
+        {
+            throw new ArgumentException("MaximumMoneyInSmallestUnit cannot be lower than MinimumMoneyInSmallestUnit");
+        }
+        
         if (minimumNumberOfInstallments <= 0)
         {
             throw new ArgumentException("NumberOfInstallments has to be positive");
         }
+        if(maximumNumberOfInstallments < minimumNumberOfInstallments)
+        {
+            throw new ArgumentException("MaximumNumberOfInstallments cannot be lower than MinimumNumberOfINstallments");
+        }
+
         if (interestRate < 0)
         {
             throw new ArgumentException("InterestRate has to be non negative");

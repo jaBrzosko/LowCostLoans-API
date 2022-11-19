@@ -11,7 +11,9 @@ public class PostCreateOfferTemplate
     public static class ErrorCodes
     {
         public const int MoneyHasToBePositive = 1;
-        public const int NumberOfInstallmentsHasToBePositive = 2;
-        public const int InterestRateHasToBeNonNegative = 3;
+        public const int MaximumMoneyHasToBeSmallerThanMinimumMoney = 2;
+        public const int NumberOfInstallmentsHasToBePositive = 3;
+        public const int MaximumInstallmentsHasToBeSmallerThanMinimumInstallments = 4;
+        public const int InterestRateHasToBeNonNegative = 5;
     }
 }
