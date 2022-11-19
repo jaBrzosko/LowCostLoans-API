@@ -1,5 +1,6 @@
 using Domain.Examples;
 using Domain.Inquires;
+using Domain.Offers;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ public class CoreDbContext : DbContext
     public DbSet<Example> Examples { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Inquire> Inquiries { get; set; }
+    public DbSet<OfferTemplate> OfferTemplates { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -21,6 +23,7 @@ public class CoreDbContext : DbContext
         ConfigureExamples(modelBuilder);
         ConfigureUsers(modelBuilder);
         ConfigureInquires(modelBuilder);
+        ConfigureOfferTemplates(modelBuilder);
     }
 
     private static void ConfigureExamples(ModelBuilder modelBuilder)
@@ -62,6 +65,19 @@ public class CoreDbContext : DbContext
                 inner.Property(e => e.GovernmentIdType);
                 inner.Property(e => e.JobType);
             });
+        });
+    }
+    
+    private static void ConfigureOfferTemplates(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<OfferTemplate>(cfg =>
+        {
+            cfg.HasKey(e => e.Id);
+            cfg.Property(e => e.MinimumMoneyInSmallestUnit);
+            cfg.Property(e => e.MaximumMoneyInSmallestUnit);
+            cfg.Property(e => e.MinimumNumberOfInstallments);
+            cfg.Property(e => e.MaximumNumberOfInstallments);
+            cfg.Property(e => e.CreationTime);
         });
     }
 }

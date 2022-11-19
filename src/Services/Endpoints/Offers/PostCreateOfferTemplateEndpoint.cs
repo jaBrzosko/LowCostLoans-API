@@ -2,10 +2,11 @@ using Domain.Offers;
 using FastEndpoints;
 using Contracts.Offers;
 using Services.Data.Repositories;
-
+using Microsoft.AspNetCore.Authorization;
 namespace Services.Endpoints.Offers;
 
 [HttpPost("/offers/createOfferTemplate")]
+[AllowAnonymous]
 public class PostCreateOfferTemplateEndpoint : Endpoint<PostCreateOfferTemplate>
 {
     private readonly Repository<OfferTemplate> offerTemplatesRepository;

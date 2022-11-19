@@ -26,6 +26,9 @@ public class OfferTemplate
         CreationTime = DateTime.UtcNow;
     }
 
+    private OfferTemplate()
+    { }
+
     private static void Validate(int minimumMoneyInSmallestUnit, int maximumMoneyInSmallestUnit,
         int minimumNumberOfInstallments, int maximumNumberOfInstallments, int interestRate)
     {
