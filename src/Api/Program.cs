@@ -1,5 +1,6 @@
 using Domain.Examples;
 using Domain.Inquires;
+using Domain.Offers;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Services.Data;
@@ -18,6 +19,7 @@ public class Program
         builder.Services.AddScoped<ExampleService>();
         builder.Services.AddScoped<Repository<Example>>();
         builder.Services.AddScoped<Repository<Inquire>>();
+        builder.Services.AddScoped<Repository<OfferTemplate>>();
         builder.Services.AddFastEndpoints();
         builder.Services.AddSwaggerDoc();
         var app = builder.Build();
