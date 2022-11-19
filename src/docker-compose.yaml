@@ -1,0 +1,8 @@
+version: "3.5"
+services:
+  server:
+    container_name: api-backend
+    image: api-backend-dotnet
+    build: .
+    ports:
+      - "8082:80"
