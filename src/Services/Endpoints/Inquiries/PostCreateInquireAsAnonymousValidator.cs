@@ -1,4 +1,4 @@
-using Contracts.Inquires;
+using Contracts.Inquiries;
 using FastEndpoints;
 using FluentValidation;
 using Services.Endpoints.Users;

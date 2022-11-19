@@ -1,5 +1,5 @@
-using Contracts.Inquires;
-using Domain.Inquires;
+using Contracts.Inquiries;
+using Domain.Inquiries;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Services.Data.DataMappers;

@@ -1,4 +1,4 @@
-using Contracts.Inquires;
+using Contracts.Inquiries;
 using Contracts.Users;
 using Services.Endpoints.Inquires;
 using Services.UnitTests.Helpers;

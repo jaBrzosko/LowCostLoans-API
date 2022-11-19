@@ -1,6 +1,6 @@
 using Contracts.Users;
 
-namespace Contracts.Inquires;
+namespace Contracts.Inquiries;
 
 public class PostCreateInquireAsAnonymous
 {

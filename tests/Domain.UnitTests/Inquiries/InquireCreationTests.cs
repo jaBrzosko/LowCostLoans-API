@@ -1,4 +1,4 @@
-using Domain.Inquires;
+using Domain.Inquiries;
 using Domain.Users;
 using FluentAssertions;
 using Xunit;
@@ -52,7 +52,7 @@ public class InquireCreationTests
     }
     
     [Fact]
-    public void MNumberOfInstallments_is_negative()
+    public void NumberOfInstallments_is_negative()
     {
         TestThrowingArgumentException(Guid.NewGuid(), null, 123, -123);
     }
