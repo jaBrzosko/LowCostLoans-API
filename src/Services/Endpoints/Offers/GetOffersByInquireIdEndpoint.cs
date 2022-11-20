@@ -12,13 +12,13 @@ using Contracts.Offers;
 
 namespace Services.Endpoints.Offers;
 
-[HttpPost("/offers/getOfferByInquireId")]
+[HttpPost("/offers/getOfferSByInquireId")]
 [AllowAnonymous]
-public class GetOfferByInquireIdEndpoint: Endpoint<GetOfferByInquireId, OfferListDto?>
+public class GetOffersByInquireIdEndpoint: Endpoint<GetOfferByInquireId, OfferListDto?>
 {
     private readonly CoreDbContext dbContext;
 
-    public GetOfferByInquireIdEndpoint(CoreDbContext dbContext)
+    public GetOffersByInquireIdEndpoint(CoreDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
@@ -35,7 +35,7 @@ public class GetOfferByInquireIdEndpoint: Endpoint<GetOfferByInquireId, OfferLis
                 NumberOfInstallments = iq.NumberOfInstallments,
                 Offers = dbContext
                     .Offers
-                    .Where(e => e.Id == req.Id)
+                    .Where(e => e.InquireId == req.Id)
                     .Select(e => new OfferDto
                     {
                         Id = e.Id,
