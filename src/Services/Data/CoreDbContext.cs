@@ -24,6 +24,7 @@ public class CoreDbContext : DbContext
         ConfigureUsers(modelBuilder);
         ConfigureInquiries(modelBuilder);
         ConfigureOfferTemplates(modelBuilder);
+        ConfigureOffers(modelBuilder);
     }
 
     private static void ConfigureExamples(ModelBuilder modelBuilder)
@@ -77,6 +78,18 @@ public class CoreDbContext : DbContext
             cfg.Property(e => e.MaximumMoneyInSmallestUnit);
             cfg.Property(e => e.MinimumNumberOfInstallments);
             cfg.Property(e => e.MaximumNumberOfInstallments);
+            cfg.Property(e => e.CreationTime);
+        });
+    }
+    private static void ConfigureOffers(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Offer>(cfg =>
+        {
+            cfg.HasKey(e => e.Id);
+            cfg.Property(e => e.InquireId);
+            cfg.Property(e => e.NumberOfInstallments);
+            cfg.Property(e => e.MoneyInSmallestUnit);
+            cfg.Property(e => e.InterestRate);
             cfg.Property(e => e.CreationTime);
         });
     }

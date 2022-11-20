@@ -20,6 +20,7 @@ public class Program
         builder.Services.AddScoped<Repository<Example>>();
         builder.Services.AddScoped<Repository<Inquire>>();
         builder.Services.AddScoped<Repository<OfferTemplate>>();
+        builder.Services.AddScoped<Repository<Offer>>();
         builder.Services.AddFastEndpoints();
         builder.Services.AddSwaggerDoc();
         var app = builder.Build();
