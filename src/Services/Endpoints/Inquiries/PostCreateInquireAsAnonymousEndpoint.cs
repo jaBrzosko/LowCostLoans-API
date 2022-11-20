@@ -4,6 +4,7 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Services.Data.DataMappers;
 using Services.Data.Repositories;
+using Contracts.Common;
 
 namespace Services.Endpoints.Inquiries;
 
@@ -22,6 +23,7 @@ public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAs
     {
         var inquire = new Inquire(null, req.PersonalData.ToEntity(), req.MoneyInSmallestUnit, req.NumberOfInstallments);
         await inquiriesRepository.AddAsync(inquire, ct);
-        await SendAsync(new object(), cancellation: ct);
+        var response = new PostResponseWithIdDto { Id = inquire.Id };
+        await SendAsync(response, cancellation: ct);
     }
 }
