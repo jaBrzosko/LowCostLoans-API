@@ -26,4 +26,14 @@ public class Repository<TEntity> where TEntity : class
         dbContext.Set<TEntity>().Remove(entity);
         await dbContext.SaveChangesAsync(ct);
     }
+
+    public void Add(TEntity entity)
+    {
+        dbContext.Set<TEntity>().Add(entity);
+    }
+
+    public async Task SaveContext(CancellationToken ct)
+    {
+        await dbContext.SaveChangesAsync(ct);
+    }
 }
