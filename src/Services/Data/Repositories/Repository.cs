@@ -31,9 +31,4 @@ public class Repository<TEntity> where TEntity : class
     {
         dbContext.Set<TEntity>().Add(entity);
     }
-
-    public async Task SaveContext(CancellationToken ct)
-    {
-        await dbContext.SaveChangesAsync(ct);
-    }
 }

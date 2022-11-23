@@ -21,6 +21,8 @@ public class Offer
         CreationTime = DateTime.UtcNow;
     }
     
+    private Offer(){}
+    
     private static void Validate(int moneyInSmallestUnit, int numberOfInstallments)
     {
         if (moneyInSmallestUnit <= 0)
