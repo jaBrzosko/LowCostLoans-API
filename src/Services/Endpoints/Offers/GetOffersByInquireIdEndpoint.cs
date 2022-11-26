@@ -6,7 +6,7 @@ using Contracts.Offers;
 
 namespace Services.Endpoints.Offers;
 
-[HttpGet("/offers/getOfferSByInquireId")]
+[HttpGet("/offers/getOffersByInquireId")]
 [AllowAnonymous]
 public class GetOffersByInquireIdEndpoint: Endpoint<GetOffersByInquireId, OfferListDto?>
 {
