@@ -1,6 +1,6 @@
 namespace Contracts.Offers;
 
-public class GetOfferByInquireId
+public class GetOffersByInquireId
 {
     public Guid Id { get; set; }
 }

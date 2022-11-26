@@ -6,9 +6,9 @@ using Contracts.Offers;
 
 namespace Services.Endpoints.Offers;
 
-[HttpPost("/offers/getOfferSByInquireId")]
+[HttpGet("/offers/getOfferSByInquireId")]
 [AllowAnonymous]
-public class GetOffersByInquireIdEndpoint: Endpoint<GetOfferByInquireId, OfferListDto?>
+public class GetOffersByInquireIdEndpoint: Endpoint<GetOffersByInquireId, OfferListDto?>
 {
     private readonly CoreDbContext dbContext;
 
@@ -17,7 +17,7 @@ public class GetOffersByInquireIdEndpoint: Endpoint<GetOfferByInquireId, OfferLi
         this.dbContext = dbContext;
     }
 
-    public override async Task HandleAsync(GetOfferByInquireId req, CancellationToken ct)
+    public override async Task HandleAsync(GetOffersByInquireId req, CancellationToken ct)
     {
         var result = await dbContext
             .Inquiries
