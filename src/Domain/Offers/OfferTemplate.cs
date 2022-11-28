@@ -19,7 +19,7 @@ public class OfferTemplate
 
         Id = Guid.NewGuid();
         MinimumMoneyInSmallestUnit = minimumMoneyInSmallestUnit;
-        MaximumMoneyInSmallestUnit = maximumNumberOfInstallments;
+        MaximumMoneyInSmallestUnit = maximumMoneyInSmallestUnit;
         MinimumNumberOfInstallments = minimumNumberOfInstallments;
         MaximumNumberOfInstallments = maximumNumberOfInstallments;
         InterestRate = interestRate;

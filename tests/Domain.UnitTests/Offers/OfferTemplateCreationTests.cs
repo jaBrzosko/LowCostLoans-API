@@ -72,7 +72,7 @@ public class OfferTemplateCreationTests
             minimumNumberOfInstallments, maximumNumberOfInstallments, interestRate);
 
         actualOfferTemplate.MinimumMoneyInSmallestUnit.Should().Be(minimumMoneyInSmallestUnit);
-        actualOfferTemplate.MaximumMoneyInSmallestUnit.Should().Be(maximumNumberOfInstallments);
+        actualOfferTemplate.MaximumMoneyInSmallestUnit.Should().Be(maximumMoneyInSmallestUnit);
         actualOfferTemplate.MinimumNumberOfInstallments.Should().Be(minimumNumberOfInstallments);
         actualOfferTemplate.MaximumNumberOfInstallments.Should().Be(maximumNumberOfInstallments);
         actualOfferTemplate.InterestRate.Should().Be(interestRate);
