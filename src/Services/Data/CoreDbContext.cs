@@ -3,6 +3,7 @@ using Domain.Inquiries;
 using Domain.Offers;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 namespace Services.Data;
 
@@ -92,6 +93,7 @@ public class CoreDbContext : DbContext
             cfg.Property(e => e.MoneyInSmallestUnit);
             cfg.Property(e => e.InterestRate);
             cfg.Property(e => e.CreationTime);
+            cfg.Property(e => e.Status);
         });
     }
 }
