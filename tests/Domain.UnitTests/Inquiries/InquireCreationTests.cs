@@ -8,66 +8,56 @@ namespace Domain.UnitTests.Inquiries;
 public class InquireCreationTests
 {
     [Fact]
-    public void Create_from_UserId()
-    {
-        TestCreation(Guid.NewGuid(), null, 11231, 123312);
-    }
-    
-    [Fact]
     public void Create_from_PersonalData()
     {
         var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
-        TestCreation(null, personalData, 11231, 123312);
+        TestCreation(personalData, 11231, 123312);
     }
 
     [Fact]
-    public void UserId_and_Personal_data_are_not_null()
+    public void Personal_data_is_null()
     {
-        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
-        TestThrowingArgumentException(Guid.NewGuid(), personalData, 11231, 123312);
-    }
-    
-    [Fact]
-    public void UserId_and_Personal_data_are_null()
-    {
-        TestThrowingArgumentException(null, null, 11231, 123312);
+        TestThrowingArgumentException(null, 11231, 123312);
     }
     
     [Fact]
     public void Money_is_zero()
     {
-        TestThrowingArgumentException(Guid.NewGuid(), null, 0, 123312);
+        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
+        TestThrowingArgumentException(personalData, 0, 123312);
     }
     
     [Fact]
     public void Money_is_negative()
     {
-        TestThrowingArgumentException(Guid.NewGuid(), null, -123, 123312);
+        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
+        TestThrowingArgumentException(personalData, -123, 123312);
     }
     
     [Fact]
     public void NumberOfInstallments_is_zero()
     {
-        TestThrowingArgumentException(Guid.NewGuid(), null, 123, 0);
+        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
+        TestThrowingArgumentException(personalData, 123, 0);
     }
     
     [Fact]
     public void NumberOfInstallments_is_negative()
     {
-        TestThrowingArgumentException(Guid.NewGuid(), null, 123, -123);
+        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
+        TestThrowingArgumentException(personalData, 123, -123);
     }
 
-    private void TestThrowingArgumentException(Guid? userId, PersonalData? personalData, int money, int numberOfInstallments)
+    private void TestThrowingArgumentException(PersonalData? personalData, int money, int numberOfInstallments)
     {
-        var action = () => { new Inquire(userId, personalData, money, numberOfInstallments); };
+        var action = () => { new Inquire(personalData, money, numberOfInstallments); };
         action.Should().Throw<ArgumentException>();
     }
 
-    private void TestCreation(Guid? userId, PersonalData? personalData, int money, int numberOfInstallments)
+    private void TestCreation(PersonalData? personalData, int money, int numberOfInstallments)
     {
-        var actualInquire = new Inquire(userId, personalData, money, numberOfInstallments);
+        var actualInquire = new Inquire(personalData, money, numberOfInstallments);
 
-        actualInquire.UserId.Should().Be(userId);
         actualInquire.PersonalData.Should().BeEquivalentTo(personalData);
         actualInquire.MoneyInSmallestUnit.Should().Be(money);
         actualInquire.NumberOfInstallments.Should().Be(numberOfInstallments);

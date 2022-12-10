@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Server.HttpSys;
 namespace Services.Endpoints.Inquiries;
 [HttpGet("/inquiries/getInquireList")]
 [AllowAnonymous]
-public class GetInquireListPaginatedEndpoint: Endpoint<GetInquireListPaginated, PaginationDto<InquireDto>?>
+public class GetInquireListPaginatedEndpoint: Endpoint<GetInquireListPaginated, PaginationDto<InquireDto>>
 {
     private readonly CoreDbContext dbContext;
 
@@ -23,26 +23,26 @@ public class GetInquireListPaginatedEndpoint: Endpoint<GetInquireListPaginated, 
 
     public override async Task HandleAsync(GetInquireListPaginated req, CancellationToken ct)
     {
-        int start = req.PageNumber * req.PageSize;
+        
+        int start = req.PageNumber * Math.Clamp(req.PageSize, 1, 100);
         var inqs = await dbContext
             .Inquiries
             .Skip(start)
             .Take(req.PageSize)
             .Select(iq => new InquireDto
             {
-            Id = iq.Id,
-            UserId = iq.UserId,
-            PersonalData = iq.PersonalData == null ? null : new PersonalDataDto
-            {
-                FirstName = iq.PersonalData.FirstName,
-                LastName = iq.PersonalData.LastName,
-                GovernmentId = iq.PersonalData.GovernmentId,
-                GovernmentIdType = (GovernmentIdTypeDto)iq.PersonalData.GovernmentIdType,
-                JobType = (JobTypeDto)iq.PersonalData.JobType
-            },
-            MoneyInSmallestUnit = iq.MoneyInSmallestUnit,
-            NumberOfInstallments = iq.NumberOfInstallments,
-            CreationTime = iq.CreationTime
+                Id = iq.Id,
+                PersonalData = iq.PersonalData == null ? null : new PersonalDataDto
+                {
+                    FirstName = iq.PersonalData.FirstName,
+                    LastName = iq.PersonalData.LastName,
+                    GovernmentId = iq.PersonalData.GovernmentId,
+                    GovernmentIdType = (GovernmentIdTypeDto)iq.PersonalData.GovernmentIdType,
+                    JobType = (JobTypeDto)iq.PersonalData.JobType
+                },
+                MoneyInSmallestUnit = iq.MoneyInSmallestUnit,
+                NumberOfInstallments = iq.NumberOfInstallments,
+                CreationTime = iq.CreationTime
             })
             .ToListAsync(ct);
         var count = await dbContext
