@@ -3,6 +3,7 @@ using Domain.Inquiries;
 using Domain.Offers;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using Microsoft.EntityFrameworkCore;
 using Services.Data;
 using Services.Data.Repositories;
 using Services.ValidationExtensions;
@@ -45,7 +46,18 @@ public class Program
         });
         app.UseOpenApi();
         app.UseSwaggerUi3(s => s.ConfigureDefaults());
+        
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
 
+            var context = services.GetRequiredService<CoreDbContext>();
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
+        }
+        
         app.Run();
     }
 }
