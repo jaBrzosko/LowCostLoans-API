@@ -7,10 +7,11 @@ namespace Domain.UnitTests.Inquiries;
 
 public class InquireCreationTests
 {
+    private PersonalData personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
+
     [Fact]
     public void Create_from_PersonalData()
     {
-        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
         TestCreation(personalData, 11231, 123312);
     }
 
@@ -23,42 +24,38 @@ public class InquireCreationTests
     [Fact]
     public void Money_is_zero()
     {
-        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
         TestThrowingArgumentException(personalData, 0, 123312);
     }
     
     [Fact]
     public void Money_is_negative()
     {
-        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
         TestThrowingArgumentException(personalData, -123, 123312);
     }
     
     [Fact]
     public void NumberOfInstallments_is_zero()
     {
-        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
         TestThrowingArgumentException(personalData, 123, 0);
     }
     
     [Fact]
     public void NumberOfInstallments_is_negative()
     {
-        var personalData = new PersonalData("first name", "last name", "pesel", GovernmentIdType.Pesel, JobType.SomeJobType);
         TestThrowingArgumentException(personalData, 123, -123);
     }
 
-    private void TestThrowingArgumentException(PersonalData? personalData, int money, int numberOfInstallments)
+    private void TestThrowingArgumentException(PersonalData? personalDataL, int money, int numberOfInstallments)
     {
-        var action = () => { new Inquire(personalData, money, numberOfInstallments); };
+        var action = () => { new Inquire(personalDataL, money, numberOfInstallments); };
         action.Should().Throw<ArgumentException>();
     }
 
-    private void TestCreation(PersonalData? personalData, int money, int numberOfInstallments)
+    private void TestCreation(PersonalData? personalDataL, int money, int numberOfInstallments)
     {
-        var actualInquire = new Inquire(personalData, money, numberOfInstallments);
+        var actualInquire = new Inquire(personalDataL, money, numberOfInstallments);
 
-        actualInquire.PersonalData.Should().BeEquivalentTo(personalData);
+        actualInquire.PersonalData.Should().BeEquivalentTo(personalDataL);
         actualInquire.MoneyInSmallestUnit.Should().Be(money);
         actualInquire.NumberOfInstallments.Should().Be(numberOfInstallments);
     }
