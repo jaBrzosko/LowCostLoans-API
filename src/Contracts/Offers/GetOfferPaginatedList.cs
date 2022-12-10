@@ -2,7 +2,7 @@ using Contracts.Common;
 
 namespace Contracts.Offers;
 
-public class GetOfferPaginatedList: GetPagination
+public class GetOfferPaginatedList: GetPaginatedList
 {
     public bool ShowCreated { get; set; }
 }
