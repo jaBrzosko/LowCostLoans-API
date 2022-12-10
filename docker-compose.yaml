@@ -1,0 +1,23 @@
+version: "3.5"
+services:
+  server:
+    container_name: api-backend
+    image: api-backend-dotnet
+    build: .
+    ports:
+      - "8082:80"
+  api-postgres:
+      container_name: api-database
+      image: "postgres:latest"
+      environment:
+        - POSTGRES_PASSWORD=password
+        - POSTGRES_DB=api
+        - POSTGRES_USER=admin
+      networks:
+        - api-db
+      volumes:
+        - /var/loans/postgres-api:/var/lib/postgresql/data
+networks:
+  api-db:
+    name: api-db
+    driver: bridge
