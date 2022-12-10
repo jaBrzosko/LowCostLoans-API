@@ -12,16 +12,16 @@ using Microsoft.AspNetCore.Server.HttpSys;
 namespace Services.Endpoints.Inquiries;
 [HttpGet("/inquiries/getInquireList")]
 [AllowAnonymous]
-public class GetInquireListPaginatedEndpoint: Endpoint<GetInquireListPaginated, PaginationDto<InquireDto>>
+public class GetInquirePaginatedListEndpoint: Endpoint<GetInquirePaginatedList, PaginationResultDto<InquireDto>>
 {
     private readonly CoreDbContext dbContext;
 
-    public GetInquireListPaginatedEndpoint(CoreDbContext dbContext)
+    public GetInquirePaginatedListEndpoint(CoreDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
 
-    public override async Task HandleAsync(GetInquireListPaginated req, CancellationToken ct)
+    public override async Task HandleAsync(GetInquirePaginatedList req, CancellationToken ct)
     {
         
         int start = req.PageNumber * Math.Clamp(req.PageSize, 1, 100);
@@ -48,7 +48,7 @@ public class GetInquireListPaginatedEndpoint: Endpoint<GetInquireListPaginated, 
         var count = await dbContext
             .Inquiries
             .CountAsync(ct);
-        var result = new PaginationDto<InquireDto>
+        var result = new PaginationResultDto<InquireDto>
         {
             Results = inqs,
             Offset = start,

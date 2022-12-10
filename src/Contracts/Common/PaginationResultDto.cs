@@ -1,6 +1,6 @@
 namespace Contracts.Common;
 
-public class PaginationDto<T>
+public class PaginationResultDto<T>
 {
     public List<T> Results { get; set; }
     public int Offset { get; set; }
