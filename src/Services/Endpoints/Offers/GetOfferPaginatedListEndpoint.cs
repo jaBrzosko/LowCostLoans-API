@@ -1,19 +1,17 @@
 using Contracts.Common;
-using Contracts.Inquiries;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
 using Contracts.Offers;
-using Contracts.Users;
+using Domain.Inquiries;
 using Domain.Offers;
-using Microsoft.AspNetCore.Server.HttpSys;
 
 
 namespace Services.Endpoints.Inquiries;
 [HttpGet("/offers/getOfferList")]
 [AllowAnonymous]
-public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, PaginationResultDto<OfferDto>>
+public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, PaginationResultDto<FullOfferDto>>
 {
     private readonly CoreDbContext dbContext;
     private const int minPageSize = 1;
@@ -33,11 +31,15 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
             .Where(x => req.ShowCreated || x.Status != OfferStatus.Created)
             .Skip(start)
             .Take(Math.Clamp(req.PageSize, minPageSize, maxPageSize))
-            .Select(o => new OfferDto
+            .Select(o => new FullOfferDto
             {
                 Id = o.Id,
+                InquireId = o.InquireId,
+                CreationTime = o.CreationTime,
                 InterestRate = o.InterestRate,
-                CreationTime = o.CreationTime
+                MoneyInSmallestUnit = o.MoneyInSmallestUnit,
+                NumberOfInstallments = o.NumberOfInstallments,
+                Status = (OfferStatusTypeDto)o.Status
             })
             .ToListAsync(ct);
 
@@ -46,7 +48,7 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
             .Where(x => req.ShowCreated || x.Status != OfferStatus.Created)
             .CountAsync(ct);
         
-        var result = new PaginationResultDto<OfferDto>
+        var result = new PaginationResultDto<FullOfferDto>
         {
             Results = inqs,
             Offset = start,
