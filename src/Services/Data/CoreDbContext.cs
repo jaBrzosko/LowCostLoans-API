@@ -16,7 +16,7 @@ public class CoreDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(@"Host=api-database;Username=admin;Password=password;Database=api");
+        optionsBuilder.UseInMemoryDatabase(databaseName: "CoreDb");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
