@@ -1,7 +1,7 @@
+using Contracts.Common;
+
 namespace Contracts.Inquiries;
 
-public class GetInquirePaginatedList
+public class GetInquirePaginatedList: GetPagination
 {
-    public int PageSize { get; set; }
-    public int PageNumber { get; set; }
 }
