@@ -39,7 +39,7 @@ public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAs
                 x.MaximumMoneyInSmallestUnit >= req.MoneyInSmallestUnit &&
                 x.MinimumNumberOfInstallments <= req.NumberOfInstallments &&
                 x.MaximumNumberOfInstallments >= req.NumberOfInstallments)
-            .Select(ot => new Offer(inquire.Id, ot.InterestRate, req.MoneyInSmallestUnit, req.NumberOfInstallments, OfferStatus.Made))
+            .Select(ot => new Offer(inquire.Id, ot.InterestRate, req.MoneyInSmallestUnit, req.NumberOfInstallments))
             .ToListAsync(ct);
         foreach (var offer in offers)
         {
