@@ -15,6 +15,8 @@ namespace Services.Endpoints.Inquiries;
 public class GetInquirePaginatedListEndpoint: Endpoint<GetInquirePaginatedList, PaginationResultDto<InquireDto>>
 {
     private readonly CoreDbContext dbContext;
+    private const int minPageSize = 1;
+    private const int maxPageSize = 100;
 
     public GetInquirePaginatedListEndpoint(CoreDbContext dbContext)
     {
@@ -23,12 +25,11 @@ public class GetInquirePaginatedListEndpoint: Endpoint<GetInquirePaginatedList, 
 
     public override async Task HandleAsync(GetInquirePaginatedList req, CancellationToken ct)
     {
-        
-        int start = req.PageNumber * Math.Clamp(req.PageSize, 1, 100);
+        int start = req.PageNumber * Math.Clamp(req.PageSize, minPageSize, maxPageSize);
         var inqs = await dbContext
             .Inquiries
             .Skip(start)
-            .Take(req.PageSize)
+            .Take(Math.Clamp(req.PageSize, minPageSize, maxPageSize))
             .Select(iq => new InquireDto
             {
                 Id = iq.Id,
