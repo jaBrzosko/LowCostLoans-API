@@ -8,7 +8,7 @@ public class Offer
     public int MoneyInSmallestUnit { get; private init; }
     public int NumberOfInstallments { get; private init; }
     public DateTime CreationTime { get; private init; }
-    
+    public OfferStatus Status { get; private init; }
     public Offer(Guid inquireId, int interestRate, int moneyInSmallestUnit, int numberOfInstallments)
     {
         Validate(moneyInSmallestUnit, numberOfInstallments);
@@ -19,6 +19,7 @@ public class Offer
         MoneyInSmallestUnit = moneyInSmallestUnit;
         NumberOfInstallments = numberOfInstallments;
         CreationTime = DateTime.UtcNow;
+        Status = OfferStatus.Created;
     }
     
     private Offer(){}
@@ -35,4 +36,12 @@ public class Offer
             throw new ArgumentException("NumberOfInstallments has to be positive");
         }
     }
+}
+
+public enum OfferStatus
+{
+    Created = 0,
+    Pending = 1,
+    Accepted = 2,
+    Rejected = 3
 }
