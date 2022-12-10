@@ -29,7 +29,7 @@ public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAs
 
     public override async Task HandleAsync(PostCreateInquireAsAnonymous req, CancellationToken ct)
     {
-        var inquire = new Inquire(null, req.PersonalData.ToEntity(), req.MoneyInSmallestUnit, req.NumberOfInstallments);
+        var inquire = new Inquire(req.PersonalData.ToEntity(), req.MoneyInSmallestUnit, req.NumberOfInstallments);
         inquiriesRepository.Add(inquire);
 
         var offers = await dbContext
