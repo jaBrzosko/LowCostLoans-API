@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Services.Data;
 using Services.Data.Repositories;
 using Services.ValidationExtensions;
-using Services.Services;
 
 namespace Api;
 
@@ -21,7 +20,6 @@ public class Program
             opts => opts.UseNpgsql(builder.Configuration["DatabaseConnectionString"])
         );
         
-        builder.Services.AddScoped<ExampleService>();
         builder.Services.AddScoped<Repository<Example>>();
         builder.Services.AddScoped<Repository<Inquire>>();
         builder.Services.AddScoped<Repository<OfferTemplate>>();
