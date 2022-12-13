@@ -6,6 +6,7 @@ using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
 using Services.Data.Repositories;
+using Services.Services.BlobStorages;
 using Services.ValidationExtensions;
 
 namespace Api;
@@ -19,6 +20,10 @@ public class Program
         builder.Services.AddDbContext<CoreDbContext>(
             opts => opts.UseNpgsql(builder.Configuration["DatabaseConnectionString"])
         );
+        
+        builder.Services.AddSingleton(new BlobStorageConfiguration(builder.Configuration["BlobStorageConnectionString"]));
+
+        builder.Services.AddTransient<BlobStorage>();
         
         builder.Services.AddScoped<Repository<Example>>();
         builder.Services.AddScoped<Repository<Inquire>>();

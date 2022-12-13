@@ -4,6 +4,7 @@ namespace Services.Services.BlobStorages;
 
 public static class BlobStorageConnectionStringParser
 {
+    // TODO: refactor it
     public static Dictionary<string, string> Parse(string connectionString)
     {
         var result = new Dictionary<string, string>();
