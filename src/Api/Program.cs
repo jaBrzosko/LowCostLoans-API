@@ -16,7 +16,11 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddDbContext<CoreDbContext>();
+        
+        builder.Services.AddDbContext<CoreDbContext>(
+            opts => opts.UseNpgsql(builder.Configuration["DatabaseConnectionString"])
+        );
+        
         builder.Services.AddScoped<ExampleService>();
         builder.Services.AddScoped<Repository<Example>>();
         builder.Services.AddScoped<Repository<Inquire>>();

@@ -10,6 +10,8 @@ services:
       - api-db
     depends_on:
       - api-postgres
+    env_file:
+      - variables.env
   api-postgres:
     container_name: api-database
     image: "postgres:latest"
