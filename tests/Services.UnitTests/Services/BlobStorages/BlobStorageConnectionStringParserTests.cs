@@ -25,12 +25,12 @@ public class BlobStorageConnectionStringParserTests
     [Fact]
     public void Values_contain_equal_operatos()
     {
-        string connectionString = "a==5;b==as=df==;c=c";
+        string connectionString = "a==5;b==as=df==;c=c======";
         var expected = new Dictionary<string, string>()
         {
             { "a", "=5" },
             { "b", "=as=df==" },
-            { "c", "c" },
+            { "c", "c======" },
         };
 
         var actual = BlobStorageConnectionStringParser.Parse(connectionString);
