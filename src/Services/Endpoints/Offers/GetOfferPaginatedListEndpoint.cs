@@ -29,7 +29,7 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
         var query = dbContext
             .Offers
             .Where(x => req.ShowCreated || x.Status != OfferStatus.Created);
-        var inqs = query
+        var inqs = await query
             .Skip(start)
             .Take(Math.Clamp(req.PageSize, minPageSize, maxPageSize))
             .Select(o => new FullOfferDto
@@ -42,9 +42,9 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
                 NumberOfInstallments = o.NumberOfInstallments,
                 Status = (OfferStatusTypeDto)o.Status
             })
-            .ToList();
+            .ToListAsync(ct);
 
-        var count = query.Count();
+        var count = await query.CountAsync(ct);
         
         var result = new PaginationResultDto<FullOfferDto>
         {
