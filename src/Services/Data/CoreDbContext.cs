@@ -14,10 +14,8 @@ public class CoreDbContext : DbContext
     public DbSet<Offer> Offers { get; set; }
     public DbSet<OfferTemplate> OfferTemplates { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseNpgsql(@"Host=api-database;Username=admin;Password=password;Database=api");
-    }
+    public CoreDbContext(DbContextOptions<CoreDbContext> options) : base(options)
+    { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
