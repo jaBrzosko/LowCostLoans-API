@@ -9,6 +9,6 @@ public class PostAcceptOffer
 
     public static class ErrorCodes
     {
-        public const int FileHasToBeSmallerThan16MB = 1;
-    }
+        public const int GuidIsNotValid = 1;
+}
 }
