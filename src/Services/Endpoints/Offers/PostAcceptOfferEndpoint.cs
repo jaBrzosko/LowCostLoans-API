@@ -34,7 +34,7 @@ public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
             .Offers
             .FirstOrDefaultAsync(o => o.Id == req.OfferId, ct);
 
-        blobStorage.SaveFileToBlob(req.OfferId, req.Contract, ct);
+        await blobStorage.SaveFileToBlob(req.OfferId, req.Contract, ct);
         
         offer.Status = OfferStatus.Pending;
         coreDbContext.Set<Offer>().Update(offer);
