@@ -1,6 +1,8 @@
 using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Azure;
 
 namespace Services.Services.BlobStorages;
 
@@ -44,5 +46,21 @@ public class BlobStorage
         {
             Sas = builder.ToSasQueryParameters(credentials),
         }.ToUri();
+    }
+
+    public async Task SaveFileToBlob(Guid offerId, IFormFile file, CancellationToken ct)
+    {
+        var containerClient = blobClient.GetBlobContainerClient(ContractsContainer);
+        var fileClient = containerClient.GetBlobClient($"{offerId.ToString()}.contract");
+        var stream = file.OpenReadStream();
+        BinaryReader reader = new BinaryReader(stream);
+
+        byte[] buffer = new byte[stream.Length];
+
+        reader.Read(buffer, 0, buffer.Length);
+
+        BinaryData binaryData = new BinaryData(buffer);
+        await fileClient.UploadAsync(binaryData, ct);
+        stream.Close();
     }
 }

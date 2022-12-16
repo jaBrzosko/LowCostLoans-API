@@ -6,4 +6,8 @@
         <Nullable>annotations</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FastEndpoints" Version="5.3.2" />
+    </ItemGroup>
+
 </Project>

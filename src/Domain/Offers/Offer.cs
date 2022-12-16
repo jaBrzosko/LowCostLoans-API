@@ -8,7 +8,7 @@ public class Offer
     public int MoneyInSmallestUnit { get; private init; }
     public int NumberOfInstallments { get; private init; }
     public DateTime CreationTime { get; private init; }
-    public OfferStatus Status { get; private init; }
+    public OfferStatus Status { get; set; }
     public Offer(Guid inquireId, int interestRate, int moneyInSmallestUnit, int numberOfInstallments)
     {
         Validate(moneyInSmallestUnit, numberOfInstallments);
