@@ -6,6 +6,7 @@ using Services.Data;
 
 namespace Services.Endpoints.Offers;
 
+[Obsolete]
 [HttpGet("/offers/getOffersByInquireId")]
 [AllowAnonymous]
 public class GetOffersByInquireIdEndpoint: Endpoint<GetOffersByInquireId, OfferListDto?>

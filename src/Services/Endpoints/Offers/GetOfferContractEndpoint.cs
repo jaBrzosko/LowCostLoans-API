@@ -5,6 +5,7 @@ using Services.Services.BlobStorages;
 
 namespace Services.Endpoints.Offers;
 
+[Obsolete]
 [HttpGet("/offers/getOfferContract")]
 [AllowAnonymous]
 public class GetOfferContractEndpoint : Endpoint<GetOfferContract, ContractDto>

@@ -7,6 +7,7 @@ using Services.Data;
 
 namespace Services.Endpoints.Offers;
 
+[Obsolete]
 [HttpGet("/offers/getOfferStatus")]
 [AllowAnonymous]
 public class GetOfferStatusEndpoint : Endpoint<GetOfferStatus, OfferStatusDto?>

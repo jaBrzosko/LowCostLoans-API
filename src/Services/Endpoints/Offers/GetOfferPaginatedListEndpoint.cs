@@ -1,15 +1,15 @@
 using Contracts.Common;
 using Contracts.Frontend.Offers;
 using Contracts.Shared.Offers;
+using Domain.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
-using Domain.Inquiries;
-using Domain.Offers;
 
+namespace Services.Endpoints.Offers;
 
-namespace Services.Endpoints.Inquiries;
+[Obsolete]
 [HttpGet("/offers/getOfferList")]
 [AllowAnonymous]
 public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, PaginationResultDto<FullOfferDto>>

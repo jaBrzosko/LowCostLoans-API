@@ -7,8 +7,10 @@ using Services.Data;
 using Contracts.Shared.Users;
 using Microsoft.AspNetCore.Server.HttpSys;
 
-
 namespace Services.Endpoints.Inquiries;
+
+// TODO: delete it
+[Obsolete]
 [HttpGet("/inquiries/getInquireList")]
 [AllowAnonymous]
 public class GetInquirePaginatedListEndpoint: Endpoint<GetInquirePaginatedList, PaginationResultDto<InquireDto>>

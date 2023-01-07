@@ -3,8 +3,10 @@ using Domain.Offers;
 using FastEndpoints;
 using Services.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
+
 namespace Services.Endpoints.Offers;
 
+[Obsolete]
 [HttpPost("/offers/createOfferTemplate")]
 [AllowAnonymous]
 public class PostCreateOfferTemplateEndpoint : Endpoint<PostCreateOfferTemplate>

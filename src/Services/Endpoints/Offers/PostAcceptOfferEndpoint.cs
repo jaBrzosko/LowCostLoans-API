@@ -11,6 +11,7 @@ using Services.Services.BlobStorages;
 
 namespace Services.Endpoints.Offers;
 
+[Obsolete]
 public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
 {
     private CoreDbContext coreDbContext;
