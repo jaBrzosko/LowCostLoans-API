@@ -1,7 +1,6 @@
 using Domain.Offers;
 using FastEndpoints;
 using Contracts.Offers;
-using Services.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
