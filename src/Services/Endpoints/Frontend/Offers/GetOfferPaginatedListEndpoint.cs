@@ -4,8 +4,8 @@ using Contracts.Shared.Offers;
 using Domain.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Services.Data;
+using Services.Endpoints.Helpers;
 
 namespace Services.Endpoints.Frontend.Offers;
 
@@ -13,9 +13,6 @@ namespace Services.Endpoints.Frontend.Offers;
 [AllowAnonymous]
 public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, PaginationResultDto<FullOfferDto>>
 {
-    private const int MinPageSize = 1;
-    private const int MaxPageSize = 100;
-    
     private readonly CoreDbContext dbContext;
 
     public GetOfferPaginatedListEndpoint(CoreDbContext dbContext)
@@ -25,16 +22,9 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
 
     public override async Task HandleAsync(GetOfferPaginatedList req, CancellationToken ct)
     {
-        int pageSize = Math.Clamp(req.PageSize, MinPageSize, MaxPageSize);
-        int start = req.PageNumber * pageSize;
-
-        var query = dbContext
+        var result = await dbContext
             .Offers
-            .Where(x => req.ShowCreated || x.Status != OfferStatus.Created);
-        
-        var inqs = await query
-            .Skip(start)
-            .Take(pageSize)
+            .Where(x => req.ShowCreated || x.Status != OfferStatus.Created)
             .Select(o => new FullOfferDto
             {
                 Id = o.Id,
@@ -43,19 +33,10 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
                 InterestRate = o.InterestRate,
                 MoneyInSmallestUnit = o.MoneyInSmallestUnit,
                 NumberOfInstallments = o.NumberOfInstallments,
-                Status = (OfferStatusTypeDto)o.Status
+                Status = (OfferStatusTypeDto)o.Status,
             })
-            .ToListAsync(ct);
-
-        var count = await query.CountAsync(ct);
+            .GetPaginatedResultAsync(req, ct);
         
-        var result = new PaginationResultDto<FullOfferDto>
-        {
-            Results = inqs,
-            Offset = start,
-            TotalCount = count
-        };
-
         await SendAsync(result, cancellation:ct);
     }
 }
