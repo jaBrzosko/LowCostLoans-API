@@ -1,8 +1,9 @@
+using Contracts.Api.Offers;
+using Contracts.Shared.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
-using Contracts.Offers;
 
 namespace Services.Endpoints.Offers;
 

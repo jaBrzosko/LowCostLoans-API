@@ -1,4 +1,4 @@
-namespace Contracts.Offers;
+namespace Contracts.Shared.Offers;
 
 public enum OfferStatusTypeDto
 {

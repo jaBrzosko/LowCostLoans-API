@@ -1,5 +1,6 @@
+using Contracts.Shared.Offers;
 
-namespace Contracts.Offers;
+namespace Contracts.Api.Offers;
 
 public class OfferStatusDto
 {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Contracts.Offers;
+namespace Contracts.Api.Offers;
 
 public class PostAcceptOffer
 {

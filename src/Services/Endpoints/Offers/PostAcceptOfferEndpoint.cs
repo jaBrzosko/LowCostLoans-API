@@ -1,5 +1,5 @@
 using System.Reflection.Metadata;
-using Contracts.Offers;
+using Contracts.Api.Offers;
 using Domain.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Http;

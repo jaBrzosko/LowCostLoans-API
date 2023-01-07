@@ -1,4 +1,4 @@
-using Contracts.Offers;
+using Contracts.Frontend.Offers;
 using FastEndpoints;
 using FluentValidation;
 using Services.ValidationExtensions;

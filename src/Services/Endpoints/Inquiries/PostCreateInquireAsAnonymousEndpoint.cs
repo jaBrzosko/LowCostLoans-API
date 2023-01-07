@@ -1,4 +1,4 @@
-using Contracts.Inquiries;
+using Contracts.Api.Inquiries;
 using Domain.Inquiries;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;

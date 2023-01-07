@@ -1,4 +1,4 @@
-using Contracts.Users;
+using Contracts.Shared.Users;
 using Services.Data;
 using Services.Endpoints.Users;
 using Services.UnitTests.Helpers;

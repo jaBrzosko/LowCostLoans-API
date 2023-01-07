@@ -1,4 +1,4 @@
-namespace Contracts.Users;
+namespace Contracts.Shared.Users;
 
 public class PersonalDataDto
 {

@@ -1,4 +1,6 @@
-namespace Contracts.Offers;
+using Contracts.Shared.Offers;
+
+namespace Contracts.Frontend.Offers;
 
 public class FullOfferDto
 {

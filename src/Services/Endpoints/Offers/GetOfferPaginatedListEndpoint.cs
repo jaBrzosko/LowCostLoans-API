@@ -1,9 +1,10 @@
 using Contracts.Common;
+using Contracts.Frontend.Offers;
+using Contracts.Shared.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
-using Contracts.Offers;
 using Domain.Inquiries;
 using Domain.Offers;
 

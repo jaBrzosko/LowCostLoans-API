@@ -1,4 +1,4 @@
-using Contracts.Offers;
+using Contracts.Api.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Services.Services.BlobStorages;

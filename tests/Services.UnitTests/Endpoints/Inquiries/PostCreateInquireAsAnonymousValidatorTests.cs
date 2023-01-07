@@ -1,5 +1,5 @@
-using Contracts.Inquiries;
-using Contracts.Users;
+using Contracts.Api.Inquiries;
+using Contracts.Shared.Users;
 using Services.Endpoints.Inquiries;
 using Services.UnitTests.Helpers;
 using Xunit;

@@ -1,4 +1,4 @@
-namespace Contracts.Offers;
+namespace Contracts.Api.Offers;
 
 public class GetOfferContract
 { }

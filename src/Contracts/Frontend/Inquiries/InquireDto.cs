@@ -1,6 +1,6 @@
-using Contracts.Users;
+using Contracts.Shared.Users;
 
-namespace Contracts.Inquiries;
+namespace Contracts.Frontend.Inquiries;
 
 public class InquireDto
 {
