@@ -3,9 +3,9 @@ using FastEndpoints;
 using FluentValidation;
 using Services.ValidationExtensions;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Frontend.Offers;
 
-public class PostCreateOfferTemplateValidator: Validator<PostCreateOfferTemplate>
+public class PostCreateOfferTemplateValidator : Validator<PostCreateOfferTemplate>
 {
     public PostCreateOfferTemplateValidator()
     {

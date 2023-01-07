@@ -4,7 +4,7 @@ using FluentValidation;
 using Services.Endpoints.Users;
 using Services.ValidationExtensions;
 
-namespace Services.Endpoints.Inquiries;
+namespace Services.Endpoints.Api.Inquiries;
 
 public class PostCreateInquireAsAnonymousValidator : Validator<PostCreateInquireAsAnonymous>
 {
