@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Services.Configurations;
 
 namespace Services.Middlewares;
 
@@ -9,10 +8,12 @@ public class ApiKeyMiddleware
     private const string ApiKeyHeaderName = "ApiKey";
     
     private readonly RequestDelegate next;
+    private readonly string apiKey;
     
-    public ApiKeyMiddleware(RequestDelegate next)
+    public ApiKeyMiddleware(RequestDelegate next, ApiKeyConfiguration configuration)
     {
         this.next = next;
+        apiKey = configuration.ApiKey;
     }
     
     public async Task Invoke(HttpContext context) {
@@ -23,8 +24,6 @@ public class ApiKeyMiddleware
             return;
         }
         
-        var appSettings = context.RequestServices.GetRequiredService<IConfiguration>();
-        var apiKey = appSettings.GetValue<string>(ApiKeyHeaderName);
         if (!apiKey.Equals(extractedApiKey))
         {
             context.Response.StatusCode = 401;

@@ -4,6 +4,7 @@ using Domain.Offers;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
+using Services.Configurations;
 using Services.Data;
 using Services.Data.Repositories;
 using Services.Middlewares;
@@ -23,6 +24,7 @@ public class Program
         );
         
         builder.Services.AddSingleton(new BlobStorageConfiguration(builder.Configuration["BlobStorageConnectionString"]));
+        builder.Services.AddSingleton(new ApiKeyConfiguration(builder.Configuration["ApiKey"]));
 
         builder.Services.AddTransient<BlobStorage>();
         
