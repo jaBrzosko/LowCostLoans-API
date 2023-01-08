@@ -21,7 +21,6 @@ public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
     public override void Configure()
     {
         AllowFileUploads();
-        AllowAnonymous();
         Post("/api/offers/accept");
     }
 

@@ -6,6 +6,7 @@ using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
 using Services.Data.Repositories;
+using Services.Middlewares;
 using Services.Services.BlobStorages;
 using Services.ValidationExtensions;
 
@@ -31,7 +32,13 @@ public class Program
         builder.Services.AddScoped<Repository<Offer>>();
         builder.Services.AddFastEndpoints();
         builder.Services.AddSwaggerDoc();
+
         var app = builder.Build();
+        
+        app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
+        {
+            appBuilder.UseMiddleware<ApiKeyMiddleware>();
+        });
 
         app.UseAuthorization();
         app.UseFastEndpoints(c =>
@@ -53,7 +60,7 @@ public class Program
         });
         app.UseOpenApi();
         app.UseSwaggerUi3(s => s.ConfigureDefaults());
-        
+
         using (var scope = app.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
@@ -64,7 +71,7 @@ public class Program
                 context.Database.Migrate();
             }
         }
-        
+
         app.Run();
     }
 }

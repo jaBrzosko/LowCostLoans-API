@@ -7,7 +7,6 @@ using Services.Data;
 namespace Services.Endpoints.Api.Offers;
 
 [HttpGet("/api/offers/getOffersByInquireId")]
-[AllowAnonymous]
 public class GetOffersByInquireIdEndpoint : Endpoint<GetOffersByInquireId, OfferListDto?>
 {
     private readonly CoreDbContext dbContext;
