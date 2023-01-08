@@ -4,6 +4,7 @@ using Domain.Offers;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
+using NSwag;
 using Services.Configurations;
 using Services.Data;
 using Services.Data.Repositories;
@@ -32,8 +33,18 @@ public class Program
         builder.Services.AddScoped<Repository<Inquire>>();
         builder.Services.AddScoped<Repository<OfferTemplate>>();
         builder.Services.AddScoped<Repository<Offer>>();
+        
         builder.Services.AddFastEndpoints();
-        builder.Services.AddSwaggerDoc();
+        
+        builder.Services.AddSwaggerDoc(s =>
+        {
+            s.AddAuth("ApiKey", new()
+            {
+                Name = "ApiKey",
+                In = OpenApiSecurityApiKeyLocation.Header,
+                Type = OpenApiSecuritySchemeType.ApiKey,
+            });
+        });
 
         var app = builder.Build();
         
