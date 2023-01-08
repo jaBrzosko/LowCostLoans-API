@@ -3,10 +3,9 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Services.Services.BlobStorages;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Api.Offers;
 
-[Obsolete]
-[HttpGet("/offers/getOfferContract")]
+[HttpGet("/api/offers/getOfferContract")]
 [AllowAnonymous]
 public class GetOfferContractEndpoint : Endpoint<GetOfferContract, ContractDto>
 {

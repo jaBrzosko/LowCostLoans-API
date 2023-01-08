@@ -1,18 +1,17 @@
 using Contracts.Api.Inquiries;
+using Contracts.Common;
 using Domain.Inquiries;
+using Domain.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
-using Services.Data.DataMappers;
-using Services.Data.Repositories;
-using Contracts.Common;
-using Domain.Offers;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
+using Services.Data.DataMappers;
+using Services.Data.Repositories;
 
-namespace Services.Endpoints.Inquiries;
+namespace Services.Endpoints.Api.Inquiries;
 
-[Obsolete]
-[HttpPost("/inquiries/createInquireAsAnonymous")]
+[HttpPost("/api/inquiries/createInquireAsAnonymous")]
 [AllowAnonymous]
 public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAsAnonymous>
 {
@@ -20,7 +19,9 @@ public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAs
     private readonly Repository<Offer> offersRepository;
     private readonly CoreDbContext dbContext;
 
-    public PostCreateInquireAsAnonymousEndpoint(Repository<Inquire> inquiriesRepository, Repository<Offer> offersRepository, 
+    public PostCreateInquireAsAnonymousEndpoint(
+        Repository<Inquire> inquiriesRepository,
+        Repository<Offer> offersRepository, 
         CoreDbContext dbContext)
     {
         this.inquiriesRepository = inquiriesRepository;

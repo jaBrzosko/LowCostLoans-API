@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Api.Offers;
 
-[Obsolete]
-[HttpGet("/offers/getOfferStatus")]
+[HttpGet("/api/offers/getOfferStatus")]
 [AllowAnonymous]
 public class GetOfferStatusEndpoint : Endpoint<GetOfferStatus, OfferStatusDto?>
 {
@@ -30,6 +29,7 @@ public class GetOfferStatusEndpoint : Endpoint<GetOfferStatus, OfferStatusDto?>
                 Status = (OfferStatusTypeDto)o.Status
             })
             .FirstOrDefaultAsync(ct);
+        
         await SendAsync(result, cancellation: ct);
     }
 }

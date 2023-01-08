@@ -1,21 +1,20 @@
 using Contracts.Frontend.Offers;
 using Domain.Offers;
 using FastEndpoints;
-using Services.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Services.Data.Repositories;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Frontend.Offers;
 
-[Obsolete]
-[HttpPost("/offers/createOfferTemplate")]
+[HttpPost("/frontend/offers/createOfferTemplate")]
 [AllowAnonymous]
 public class PostCreateOfferTemplateEndpoint : Endpoint<PostCreateOfferTemplate>
 {
     private readonly Repository<OfferTemplate> offerTemplatesRepository;
 
-    public PostCreateOfferTemplateEndpoint(Repository<OfferTemplate> inquiriesRepository)
+    public PostCreateOfferTemplateEndpoint(Repository<OfferTemplate> offerTemplatesRepository)
     {
-        this.offerTemplatesRepository = inquiriesRepository;
+        this.offerTemplatesRepository = offerTemplatesRepository;
     }
 
     public override async Task HandleAsync(PostCreateOfferTemplate req, CancellationToken ct)
