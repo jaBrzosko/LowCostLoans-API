@@ -27,8 +27,48 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
         int start = req.PageNumber * Math.Clamp(req.PageSize, minPageSize, maxPageSize);
 
         var query = dbContext
-            .Offers
-            .Where(x => req.ShowCreated || x.Status != OfferStatus.Created);
+            .Offers.AsQueryable();
+
+        // Filter number of installments
+        if (req.FilterInstallmentsGreaterThan != null)
+            query = query.Where(x => x.NumberOfInstallments > req.FilterInstallmentsGreaterThan);
+        if(req.FilterInstallmentsLessThan != null)
+            query = query.Where(x => x.NumberOfInstallments < req.FilterInstallmentsLessThan);
+        
+        // Filter amount of money
+        if (req.FilterMoneyGreaterThan != null)
+            query = query.Where(x => x.MoneyInSmallestUnit > req.FilterMoneyGreaterThan);
+        if (req.FilterMoneyLessThan != null)
+            query = query.Where(x => x.MoneyInSmallestUnit < req.FilterMoneyLessThan);
+        
+        // Filter creation time
+        if (req.FilterCreationTimeLaterThan != null)
+            query = query.Where(x => x.CreationTime > req.FilterCreationTimeLaterThan);
+        if(req.FilterCreationTimeEarlierThan != null)
+            query = query.Where(x => x.CreationTime < req.FilterCreationTimeEarlierThan);
+
+        // Filter offer statuses from list
+        if (req.FilterOfferStatusTypes != null)
+            query = query.Where(x => (OfferStatusTypeDto)x.Status == req.FilterOfferStatusTypes);
+        
+        // Proper sorting
+        query = req.SortByElement switch
+        {
+            (OfferSortEnum.Installments) => req.ShowAscending
+                ? query.OrderBy(x => x.NumberOfInstallments)
+                : query.OrderByDescending(x => x.NumberOfInstallments),
+            (OfferSortEnum.CreationTime) => req.ShowAscending
+                ? query.OrderBy(x => x.CreationTime)
+                : query.OrderByDescending(x => x.CreationTime),
+            (OfferSortEnum.InteresetRate) => req.ShowAscending
+                ? query.OrderBy(x => x.InterestRate)
+                : query.OrderByDescending(x => x.InterestRate),
+            (OfferSortEnum.Money) => req.ShowAscending
+                ? query.OrderBy(x => x.MoneyInSmallestUnit)
+                : query.OrderByDescending(x => x.MoneyInSmallestUnit),
+            _ => req.ShowAscending ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id)
+        };
+
         var inqs = await query
             .Skip(start)
             .Take(Math.Clamp(req.PageSize, minPageSize, maxPageSize))

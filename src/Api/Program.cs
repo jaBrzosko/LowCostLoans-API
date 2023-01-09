@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Domain.Examples;
 using Domain.Inquiries;
 using Domain.Offers;
@@ -30,7 +31,16 @@ public class Program
         builder.Services.AddScoped<Repository<OfferTemplate>>();
         builder.Services.AddScoped<Repository<Offer>>();
         builder.Services.AddFastEndpoints();
-        builder.Services.AddSwaggerDoc();
+        
+        builder.Services.AddSwaggerDoc(s =>
+        {
+            s.AllowNullableBodyParameters = true;
+        },
+        serializerSettings: x =>
+        {
+            x.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        });
+        
         var app = builder.Build();
 
         app.UseAuthorization();
@@ -53,7 +63,7 @@ public class Program
         });
         app.UseOpenApi();
         app.UseSwaggerUi3(s => s.ConfigureDefaults());
-        
+
         using (var scope = app.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
