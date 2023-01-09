@@ -13,5 +13,5 @@ public class GetOfferPaginatedList: GetPaginatedList
     public int? FilterInstallmentsLessThan { get; set; }
     public DateTime? FilterCreationTimeLaterThan { get; set; }
     public DateTime? FilterCreationTimeEarlierThan { get; set; }
-    public OfferStatusTypeDto? FilterOfferStatusTypes { get; set; }
+    public List<OfferStatusTypeDto>? FilterOfferStatusTypes { get; set; }
 }

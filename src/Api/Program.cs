@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Contracts.Offers;
 using Domain.Examples;
 using Domain.Inquiries;
 using Domain.Offers;
@@ -7,6 +8,7 @@ using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
 using Services.Data.Repositories;
+using Services.DtoParsers;
 using Services.Services.BlobStorages;
 using Services.ValidationExtensions;
 
@@ -60,6 +62,10 @@ public class Program
                         .ToList(),
                 };
             };
+
+            c.Binding.ValueParserFor<List<OfferStatusTypeDto>>(OfferStatusTypeDtoListParser.Parse);
+
+            c.Serializer.Options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
         app.UseOpenApi();
         app.UseSwaggerUi3(s => s.ConfigureDefaults());

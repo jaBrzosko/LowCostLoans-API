@@ -1,14 +1,11 @@
 using Contracts.Common;
+using Contracts.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
-using Contracts.Offers;
-using Domain.Inquiries;
-using Domain.Offers;
 
-
-namespace Services.Endpoints.Inquiries;
+namespace Services.Endpoints.Offers;
 [HttpGet("/offers/getOfferList")]
 [AllowAnonymous]
 public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, PaginationResultDto<FullOfferDto>>
@@ -49,7 +46,7 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
 
         // Filter offer statuses from list
         if (req.FilterOfferStatusTypes != null)
-            query = query.Where(x => (OfferStatusTypeDto)x.Status == req.FilterOfferStatusTypes);
+            query = query.Where(x => req.FilterOfferStatusTypes.Contains((OfferStatusTypeDto)x.Status));
         
         // Proper sorting
         query = req.SortByElement switch
