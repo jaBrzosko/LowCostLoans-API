@@ -1,8 +1,11 @@
+using System.Security.Claims;
+using AspNetCore.Authentication.ApiKey;
 using Domain.Examples;
 using Domain.Inquiries;
 using Domain.Offers;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
 using Services.Configurations;
@@ -46,13 +49,27 @@ public class Program
             });
         });
 
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "ApiKey"; // I don't know what it is doing
+                options.DefaultChallengeScheme = "ApiKey"; // but I don't think it matters until it works
+            })
+            .AddApiKeyInHeader<ApiKeyProvider>("ApiKey", options =>
+            {
+                options.Realm = "Sample Web API";
+                options.KeyName = "ApiKey";
+            });
+
         var app = builder.Build();
+
+        app.UseRouting();
         
         app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
         {
             appBuilder.UseMiddleware<ApiKeyMiddleware>();
+            app.UseAuthentication();
         });
-
+        
         app.UseAuthorization();
         app.UseFastEndpoints(c =>
         {
