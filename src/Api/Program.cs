@@ -41,9 +41,9 @@ public class Program
         
         builder.Services.AddSwaggerDoc(s =>
         {
-            s.AddAuth("ApiKey", new()
+            s.AddAuth(ApiKeyProvider.ApiKeySchemaName, new()
             {
-                Name = "ApiKey",
+                Name = ApiKeyMiddleware.ApiKeyHeaderName,
                 In = OpenApiSecurityApiKeyLocation.Header,
                 Type = OpenApiSecuritySchemeType.ApiKey,
             });
@@ -51,13 +51,13 @@ public class Program
 
         builder.Services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = "ApiKey"; // I don't know what it is doing
-                options.DefaultChallengeScheme = "ApiKey"; // but I don't think it matters until it works
+                options.DefaultAuthenticateScheme = ApiKeyProvider.ApiKeySchemaName; // I don't know what it is doing
+                options.DefaultChallengeScheme = ApiKeyProvider.ApiKeySchemaName; // but I don't think it matters until it works
             })
-            .AddApiKeyInHeader<ApiKeyProvider>("ApiKey", options =>
+            .AddApiKeyInHeader<ApiKeyProvider>(ApiKeyProvider.ApiKeySchemaName, options =>
             {
                 options.Realm = "Sample Web API";
-                options.KeyName = "ApiKey";
+                options.KeyName = ApiKeyMiddleware.ApiKeyHeaderName;
             });
 
         var app = builder.Build();

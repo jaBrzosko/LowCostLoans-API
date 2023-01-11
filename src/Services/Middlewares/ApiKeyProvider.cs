@@ -5,6 +5,8 @@ namespace Services.Middlewares;
 
 public class ApiKeyProvider : IApiKeyProvider
 {
+    public const string ApiKeySchemaName = "ApiKey";
+    
     public Task<IApiKey> ProvideAsync(string key)
     {
         return Task.FromResult<IApiKey>(new ApiKey { Key = key });

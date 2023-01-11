@@ -5,7 +5,7 @@ namespace Services.Middlewares;
 
 public class ApiKeyMiddleware 
 {
-    private const string ApiKeyHeaderName = "ApiKey";
+    public const string ApiKeyHeaderName = "ApiKey";
     
     private readonly RequestDelegate next;
     private readonly string apiKey;
