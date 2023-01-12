@@ -6,18 +6,18 @@ using Services.ValidationExtensions;
 
 namespace Services.Endpoints.Api.Inquiries;
 
-public class PostCreateInquireAsAnonymousValidator : Validator<PostCreateInquireAsAnonymous>
+public class PostCreateAnonymousInquireValidator : Validator<PostCreateAnonymousInquire>
 {
-    public PostCreateInquireAsAnonymousValidator()
+    public PostCreateAnonymousInquireValidator()
     {
         RuleFor(iq => iq.MoneyInSmallestUnit)
             .GreaterThan(0)
-            .WithErrorCode(PostCreateInquireAsAnonymous.ErrorCodes.MoneyHasToBePositive);
-        
+            .WithErrorCode(PostCreateAnonymousInquire.ErrorCodes.MoneyHasToBePositive);
+
         RuleFor(iq => iq.NumberOfInstallments)
             .GreaterThan(0)
-            .WithErrorCode(PostCreateInquireAsAnonymous.ErrorCodes.NumberOfInstallmentsHasToBePositive);
-        
+            .WithErrorCode(PostCreateAnonymousInquire.ErrorCodes.NumberOfInstallmentsHasToBePositive);
+
         RuleFor(iq => iq.PersonalData)
             .SetValidator(new PersonalDataValidator());
     }
