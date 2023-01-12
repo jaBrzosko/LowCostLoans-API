@@ -63,7 +63,7 @@ public class Program
                 };
             };
 
-            c.Binding.ValueParserFor<List<OfferStatusTypeDto>>(OfferStatusTypeDtoListParser.Parse);
+            c.Binding.ValueParserFor<List<OfferStatusTypeDto>>(DtoListParser<OfferStatusTypeDto>.Parse);
 
             c.Serializer.Options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });

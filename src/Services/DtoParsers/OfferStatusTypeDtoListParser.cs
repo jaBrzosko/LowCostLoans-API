@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace Services.DtoParsers;
 
-public static class OfferStatusTypeDtoListParser
+public static class DtoListParser<T> where T: struct, Enum
 {
     public static ParseResult Parse(object? input)
     {
@@ -13,7 +13,7 @@ public static class OfferStatusTypeDtoListParser
             var parts = inputAsString!.Split(',');
             var result = parts.Select(p =>
                 {
-                    var success = Enum.TryParse<OfferStatusTypeDto>(p, out var val);
+                    var success = Enum.TryParse<T>(p, out var val);
                     return (success, val);
                 })
                 .ToList();
@@ -21,7 +21,7 @@ public static class OfferStatusTypeDtoListParser
         }
         catch (Exception)
         {
-            return new(false, new List<OfferStatusTypeDto>());
+            return new(false, new List<T>());
         }
     }
 }
