@@ -11,17 +11,16 @@ using Services.Data.Repositories;
 
 namespace Services.Endpoints.Api.Inquiries;
 
-[HttpPost("/api/inquiries/createInquireAsAnonymous")]
-[AllowAnonymous]
-public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAsAnonymous>
+[HttpPost("/api/inquiries/createAnonymousInquire")]
+public class PostCreateAnonymousInquireEndpoint : Endpoint<PostCreateAnonymousInquire>
 {
     private readonly Repository<Inquire> inquiriesRepository;
     private readonly Repository<Offer> offersRepository;
     private readonly CoreDbContext dbContext;
 
-    public PostCreateInquireAsAnonymousEndpoint(
+    public PostCreateAnonymousInquireEndpoint(
         Repository<Inquire> inquiriesRepository,
-        Repository<Offer> offersRepository, 
+        Repository<Offer> offersRepository,
         CoreDbContext dbContext)
     {
         this.inquiriesRepository = inquiriesRepository;
@@ -29,7 +28,7 @@ public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAs
         this.dbContext = dbContext;
     }
 
-    public override async Task HandleAsync(PostCreateInquireAsAnonymous req, CancellationToken ct)
+    public override async Task HandleAsync(PostCreateAnonymousInquire req, CancellationToken ct)
     {
         var inquire = new Inquire(req.PersonalData.ToEntity(), req.MoneyInSmallestUnit, req.NumberOfInstallments);
         inquiriesRepository.Add(inquire);
@@ -49,7 +48,7 @@ public class PostCreateInquireAsAnonymousEndpoint : Endpoint<PostCreateInquireAs
         }
 
         await dbContext.SaveChangesAsync(ct);
-        
+
         var response = new PostResponseWithIdDto { Id = inquire.Id };
         await SendAsync(response, cancellation: ct);
     }

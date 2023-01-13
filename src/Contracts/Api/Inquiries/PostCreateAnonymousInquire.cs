@@ -2,7 +2,7 @@ using Contracts.Shared.Users;
 
 namespace Contracts.Api.Inquiries;
 
-public class PostCreateInquireAsAnonymous
+public class PostCreateAnonymousInquire
 {
     public int MoneyInSmallestUnit { get; set; }
     public int NumberOfInstallments { get; set; }
@@ -12,7 +12,7 @@ public class PostCreateInquireAsAnonymous
     {
         public const int MoneyHasToBePositive = 1;
         public const int NumberOfInstallmentsHasToBePositive = 2;
-        
+
         public class PersonalDataErrors : PersonalDataDto.ErrorCodes { }
     }
 }

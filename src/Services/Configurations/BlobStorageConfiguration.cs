@@ -1,3 +1,3 @@
-namespace Services.Services.BlobStorages;
+namespace Services.Configurations;
 
 public record BlobStorageConfiguration(string ConnectionString);

@@ -8,7 +8,6 @@ using Services.Data;
 namespace Services.Endpoints.Api.Offers;
 
 [HttpGet("/api/offers/getOfferStatus")]
-[AllowAnonymous]
 public class GetOfferStatusEndpoint : Endpoint<GetOfferStatus, OfferStatusDto?>
 {
     private readonly CoreDbContext dbContext;

@@ -6,7 +6,6 @@ using Services.Services.BlobStorages;
 namespace Services.Endpoints.Api.Offers;
 
 [HttpGet("/api/offers/getOfferContract")]
-[AllowAnonymous]
 public class GetOfferContractEndpoint : Endpoint<GetOfferContract, ContractDto>
 {
     private readonly BlobStorage blobStorage;
