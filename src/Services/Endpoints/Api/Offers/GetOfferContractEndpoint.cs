@@ -3,11 +3,9 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Services.Services.BlobStorages;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Api.Offers;
 
-[Obsolete]
-[HttpGet("/offers/getOfferContract")]
-[AllowAnonymous]
+[HttpGet("/api/offers/getOfferContract")]
 public class GetOfferContractEndpoint : Endpoint<GetOfferContract, ContractDto>
 {
     private readonly BlobStorage blobStorage;

@@ -1,4 +1,4 @@
-using Contracts.Users;
+using Contracts.Shared.Users;
 using Domain.Users;
 
 namespace Services.Data.DataMappers;

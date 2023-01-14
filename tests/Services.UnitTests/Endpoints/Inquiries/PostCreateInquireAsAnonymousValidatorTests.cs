@@ -1,5 +1,6 @@
-using Contracts.Inquiries;
-using Contracts.Users;
+using Contracts.Api.Inquiries;
+using Contracts.Shared.Users;
+using Services.Endpoints.Api.Inquiries;
 using Services.Endpoints.Inquiries;
 using Services.UnitTests.Helpers;
 using Xunit;
@@ -8,9 +9,9 @@ namespace Services.UnitTests.Endpoints.Inquiries;
 
 public class PostCreateInquireAsAnonymousValidatorTests
 {
-    private readonly PostCreateInquireAsAnonymousValidator validator = new();
+    private readonly PostCreateAnonymousInquireValidator validator = new();
 
-    private readonly PostCreateInquireAsAnonymous validRequest = new()
+    private readonly PostCreateAnonymousInquire validRequest = new()
     {
         MoneyInSmallestUnit = 10546465,
         NumberOfInstallments = 12,
@@ -64,7 +65,7 @@ public class PostCreateInquireAsAnonymousValidatorTests
 
         var validationResult = await validator.ValidateAsync(request);
         
-        validationResult.EnsureCorrectError(PostCreateInquireAsAnonymous.ErrorCodes.MoneyHasToBePositive);
+        validationResult.EnsureCorrectError(PostCreateAnonymousInquire.ErrorCodes.MoneyHasToBePositive);
     }
     
     [Fact]
@@ -75,7 +76,7 @@ public class PostCreateInquireAsAnonymousValidatorTests
 
         var validationResult = await validator.ValidateAsync(request);
         
-        validationResult.EnsureCorrectError(PostCreateInquireAsAnonymous.ErrorCodes.MoneyHasToBePositive);
+        validationResult.EnsureCorrectError(PostCreateAnonymousInquire.ErrorCodes.MoneyHasToBePositive);
     }
     
     [Fact]
@@ -86,7 +87,7 @@ public class PostCreateInquireAsAnonymousValidatorTests
 
         var validationResult = await validator.ValidateAsync(request);
         
-        validationResult.EnsureCorrectError(PostCreateInquireAsAnonymous.ErrorCodes.NumberOfInstallmentsHasToBePositive);
+        validationResult.EnsureCorrectError(PostCreateAnonymousInquire.ErrorCodes.NumberOfInstallmentsHasToBePositive);
     }
     
     [Fact]
@@ -97,7 +98,7 @@ public class PostCreateInquireAsAnonymousValidatorTests
 
         var validationResult = await validator.ValidateAsync(request);
         
-        validationResult.EnsureCorrectError(PostCreateInquireAsAnonymous.ErrorCodes.NumberOfInstallmentsHasToBePositive);
+        validationResult.EnsureCorrectError(PostCreateAnonymousInquire.ErrorCodes.NumberOfInstallmentsHasToBePositive);
     }
     
     [Fact]
@@ -108,6 +109,6 @@ public class PostCreateInquireAsAnonymousValidatorTests
 
         var validationResult = await validator.ValidateAsync(request);
         
-        validationResult.EnsureCorrectError(PostCreateInquireAsAnonymous.ErrorCodes.PersonalDataErrors.FirstNameIsEmpty);
+        validationResult.EnsureCorrectError(PostCreateAnonymousInquire.ErrorCodes.PersonalDataErrors.FirstNameIsEmpty);
     }
 }

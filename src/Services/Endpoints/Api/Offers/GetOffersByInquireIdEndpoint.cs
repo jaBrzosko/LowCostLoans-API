@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Api.Offers;
 
-[Obsolete]
-[HttpGet("/offers/getOffersByInquireId")]
-[AllowAnonymous]
-public class GetOffersByInquireIdEndpoint: Endpoint<GetOffersByInquireId, OfferListDto?>
+[HttpGet("/api/offers/getOffersByInquireId")]
+public class GetOffersByInquireIdEndpoint : Endpoint<GetOffersByInquireId, OfferListDto?>
 {
     private readonly CoreDbContext dbContext;
 

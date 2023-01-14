@@ -1,15 +1,16 @@
 using Contracts.Common;
-using Contracts.Inquiries;
+using Contracts.Frontend.Inquiries;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
-using Contracts.Offers;
-using Contracts.Users;
+using Contracts.Shared.Users;
 using Microsoft.AspNetCore.Server.HttpSys;
 
-
 namespace Services.Endpoints.Inquiries;
+
+// TODO: delete it
+[Obsolete]
 [HttpGet("/inquiries/getInquireList")]
 [AllowAnonymous]
 public class GetInquirePaginatedListEndpoint: Endpoint<GetInquirePaginatedList, PaginationResultDto<InquireDto>>

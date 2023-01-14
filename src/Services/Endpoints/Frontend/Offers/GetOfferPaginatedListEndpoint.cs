@@ -7,10 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Frontend.Offers;
 
-[Obsolete]
-[HttpGet("/offers/getOfferList")]
+[HttpGet("/frontend/offers/getOfferList")]
 [AllowAnonymous]
 public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, PaginationResultDto<FullOfferDto>>
 {

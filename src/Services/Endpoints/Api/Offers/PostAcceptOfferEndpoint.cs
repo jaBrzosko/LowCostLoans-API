@@ -1,21 +1,17 @@
-using System.Reflection.Metadata;
 using Contracts.Api.Offers;
 using Domain.Offers;
 using FastEndpoints;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Azure;
 using Services.Data;
-using Services.Data.Repositories;
 using Services.Services.BlobStorages;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Api.Offers;
 
-[Obsolete]
 public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
 {
-    private CoreDbContext coreDbContext;
+    private readonly CoreDbContext coreDbContext;
     private readonly BlobStorage blobStorage;
+    
     public PostAcceptOfferEndpoint(CoreDbContext coreDbContext, BlobStorage blobStorage)
     {
         this.coreDbContext = coreDbContext;
@@ -25,12 +21,12 @@ public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
     public override void Configure()
     {
         AllowFileUploads();
-        AllowAnonymous();
-        Post("/offers/accept");
+        Post("/api/offers/accept");
     }
 
     public override async Task HandleAsync(PostAcceptOffer req, CancellationToken ct)
     {
+        // TODO: do this with repository
         var offer = await coreDbContext
             .Offers
             .FirstOrDefaultAsync(o => o.Id == req.OfferId, ct);
@@ -38,7 +34,7 @@ public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
         await blobStorage.SaveFileToBlob(req.OfferId, req.Contract, ct);
         
         offer.Status = OfferStatus.Pending;
-        coreDbContext.Set<Offer>().Update(offer);
+        coreDbContext.Offers.Update(offer);
         await coreDbContext.SaveChangesAsync(ct);
     }
 }

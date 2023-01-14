@@ -3,6 +3,7 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Azure;
+using Services.Configurations;
 
 namespace Services.Services.BlobStorages;
 
