@@ -1,9 +1,10 @@
 using System.Security.Claims;
 using AspNetCore.Authentication.ApiKey;
-using Domain.Examples;
+using Domain.Employees;
 using Domain.Inquiries;
 using Domain.Offers;
 using FastEndpoints;
+using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -32,10 +33,10 @@ public class Program
 
         builder.Services.AddTransient<BlobStorage>();
         
-        builder.Services.AddScoped<Repository<Example>>();
         builder.Services.AddScoped<Repository<Inquire>>();
         builder.Services.AddScoped<Repository<OfferTemplate>>();
         builder.Services.AddScoped<Repository<Offer>>();
+        builder.Services.AddScoped<Repository<Employee>>();
         
         builder.Services.AddFastEndpoints();
         
@@ -60,6 +61,8 @@ public class Program
                 options.KeyName = ApiKeyMiddleware.ApiKeyHeaderName;
             });
 
+        builder.Services.AddAuthenticationJWTBearer("TokenSigningKey");
+
         var app = builder.Build();
 
         app.UseRouting();
@@ -67,9 +70,9 @@ public class Program
         app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
         {
             appBuilder.UseMiddleware<ApiKeyMiddleware>();
-            app.UseAuthentication();
         });
         
+        app.UseAuthentication();
         app.UseAuthorization();
         app.UseFastEndpoints(c =>
         {
