@@ -20,8 +20,8 @@ public static class PaginationHelper
         {
             Offset = offset,
             Results = await query
-                .Take(pageSize)
                 .Skip(offset)
+                .Take(pageSize)
                 .ToListAsync(cancellationToken),
             TotalCount = await query.CountAsync(cancellationToken),
         };
