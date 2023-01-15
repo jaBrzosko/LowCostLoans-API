@@ -9,11 +9,11 @@ public class GetOfferPaginatedList: GetPaginatedList
     public bool ShowAscending { get; set; }
     public OfferSortEnum SortByElement { get; set; }
     
-    public int? FilterMoneyGreaterThan { get; set; }
-    public int? FilterMoneyLessThan { get; set; }
-    public int? FilterInstallmentsGreaterThan { get; set; }
-    public int? FilterInstallmentsLessThan { get; set; }
-    public DateTime? FilterCreationTimeLaterThan { get; set; }
-    public DateTime? FilterCreationTimeEarlierThan { get; set; }
-    public List<OfferStatusTypeDto>? FilterOfferStatusTypes { get; set; }
+    public int? MoneyGreaterThanFilter { get; set; }
+    public int? MoneyLessThanFilter { get; set; }
+    public int? InstallmentsGreaterThanFilter { get; set; }
+    public int? InstallmentsLessThanFilter { get; set; }
+    public DateTime? CreationTimeLaterThanFilter { get; set; }
+    public DateTime? CreationTimeEarlierThanFilter { get; set; }
+    public List<OfferStatusTypeDto>? OfferStatusTypesFilter { get; set; }
 }
