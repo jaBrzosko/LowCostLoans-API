@@ -7,6 +7,7 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
+using Services.Endpoints.Helpers;
 
 namespace Services.Endpoints.Frontend.Offers;
 
@@ -34,9 +35,7 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
 
         query = SortOfferQuery(query, req);
 
-        var inqs = await query
-            .Skip(start)
-            .Take(Math.Clamp(req.PageSize, minPageSize, maxPageSize))
+        var finalQuery = query
             .Select(o => new FullOfferDto
             {
                 Id = o.Id,
@@ -46,17 +45,9 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
                 MoneyInSmallestUnit = o.MoneyInSmallestUnit,
                 NumberOfInstallments = o.NumberOfInstallments,
                 Status = (OfferStatusTypeDto)o.Status
-            })
-            .ToListAsync(ct);
+            });
 
-        var count = await query.CountAsync(ct);
-        
-        var result = new PaginationResultDto<FullOfferDto>
-        {
-            Results = inqs,
-            Offset = start,
-            TotalCount = count
-        };
+        var result = await finalQuery.GetPaginatedResultAsync(req, ct);
 
         await SendAsync(result, cancellation:ct);
     }
