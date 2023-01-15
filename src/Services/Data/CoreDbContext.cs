@@ -1,4 +1,3 @@
-using Domain.Examples;
 using Domain.Inquiries;
 using Domain.Offers;
 using Domain.Users;
@@ -9,7 +8,6 @@ namespace Services.Data;
 
 public class CoreDbContext : DbContext
 {
-    public DbSet<Example> Examples { get; set; }
     public DbSet<Inquire> Inquiries { get; set; }
     public DbSet<Offer> Offers { get; set; }
     public DbSet<OfferTemplate> OfferTemplates { get; set; }
@@ -19,16 +17,9 @@ public class CoreDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        ConfigureExamples(modelBuilder);
         ConfigureInquiries(modelBuilder);
         ConfigureOfferTemplates(modelBuilder);
         ConfigureOffers(modelBuilder);
-    }
-
-    private static void ConfigureExamples(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Example>().HasKey(e => e.Id);
-        modelBuilder.Entity<Example>().Property(e => e.Name).HasMaxLength(StringLengths.ShortString);
     }
 
     private static void ConfigureInquiries(ModelBuilder modelBuilder)
