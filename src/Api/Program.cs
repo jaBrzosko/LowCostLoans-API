@@ -1,9 +1,11 @@
 using System.Text.Json.Serialization;
 using AspNetCore.Authentication.ApiKey;
 using Contracts.Shared.Offers;
+using Contracts.Shared.Users;
 using Domain.Examples;
 using Domain.Inquiries;
 using Domain.Offers;
+using Domain.Users;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
@@ -96,6 +98,8 @@ public class Program
             };
 
             c.Binding.ValueParserFor<List<OfferStatusTypeDto>>(DtoListParser<OfferStatusTypeDto>.Parse);
+            c.Binding.ValueParserFor<List<GovernmentIdTypeDto>>(DtoListParser<GovernmentIdTypeDto>.Parse);
+            c.Binding.ValueParserFor<List<JobTypeDto>>(DtoListParser<JobTypeDto>.Parse);
 
             c.Serializer.Options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
