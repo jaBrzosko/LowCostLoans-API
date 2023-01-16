@@ -8,7 +8,7 @@ using Services.Services.AuthServices;
 
 namespace Services.Endpoints.Frontend.Employees;
 
-[HttpPost("frontend/login")]
+[HttpPost("/frontend/login")]
 [AllowAnonymous]
 public class PostLoginEndpoint : Endpoint<PostLogin, LoginResponseDto>
 {
@@ -39,13 +39,14 @@ public class PostLoginEndpoint : Endpoint<PostLogin, LoginResponseDto>
         if (AuthService.DoesPasswordsMatch(employee.PasswordHash, req.Password))
         {
             var token = JWTBearer.CreateToken(
-                signingKey: "TokenSigningKey",
+                signingKey: "TokenSigningKeyTokenSigningKeyTokenSigningKey",
                 expireAt: DateTime.UtcNow.AddDays(1),
+                claims: new[] { ("UserId", employee.Id.ToString()) },
                 roles: new[] { "Admin" });
             
             await SendAsync(new LoginResponseDto
                 {
-                    Token = token, AreCredentialsValid = false,
+                    Token = token, AreCredentialsValid = true,
                 },
                 cancellation: ct);
         }

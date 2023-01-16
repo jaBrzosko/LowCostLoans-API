@@ -61,7 +61,7 @@ public class Program
                 options.KeyName = ApiKeyMiddleware.ApiKeyHeaderName;
             });
 
-        builder.Services.AddAuthenticationJWTBearer("TokenSigningKey");
+        builder.Services.AddAuthenticationJWTBearer("TokenSigningKeyTokenSigningKeyTokenSigningKey");
 
         var app = builder.Build();
 

@@ -1,11 +1,14 @@
 using Contracts.Frontend.Employees;
 using Domain.Employees;
 using FastEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Services.Data.Repositories;
 using Services.Services.AuthServices;
 
 namespace Services.Endpoints.Frontend.Employees;
 
+[HttpPost("/frontend/register")]
+[AllowAnonymous]
 public class PostRegisterEndpoint : Endpoint<PostRegister>
 {
     private readonly Repository<Employee> employees;
