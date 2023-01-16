@@ -3,10 +3,10 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
+using Services.Middlewares;
 
 namespace Services.Endpoints.Api.Offers;
 
-[HttpGet("/api/offers/getOffersByInquireId")]
 public class GetOffersByInquireIdEndpoint : Endpoint<GetOffersByInquireId, OfferListDto?>
 {
     private readonly CoreDbContext dbContext;
@@ -14,6 +14,12 @@ public class GetOffersByInquireIdEndpoint : Endpoint<GetOffersByInquireId, Offer
     public GetOffersByInquireIdEndpoint(CoreDbContext dbContext)
     {
         this.dbContext = dbContext;
+    }
+
+    public override void Configure()
+    {
+        Get("/api/offers/getOffersByInquireId");
+        AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
     }
 
     public override async Task HandleAsync(GetOffersByInquireId req, CancellationToken ct)

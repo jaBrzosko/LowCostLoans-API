@@ -1,13 +1,12 @@
 using Contracts.Api.Offers;
 using Contracts.Shared.Offers;
 using FastEndpoints;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
+using Services.Middlewares;
 
 namespace Services.Endpoints.Api.Offers;
 
-[HttpGet("/api/offers/getOfferStatus")]
 public class GetOfferStatusEndpoint : Endpoint<GetOfferStatus, OfferStatusDto?>
 {
     private readonly CoreDbContext dbContext;
@@ -15,6 +14,12 @@ public class GetOfferStatusEndpoint : Endpoint<GetOfferStatus, OfferStatusDto?>
     public GetOfferStatusEndpoint(CoreDbContext dbContext)
     {
         this.dbContext = dbContext;
+    }
+
+    public override void Configure()
+    {
+        Get("/api/offers/getOfferStatus");
+        AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
     }
 
     public override async Task HandleAsync(GetOfferStatus req, CancellationToken ct)

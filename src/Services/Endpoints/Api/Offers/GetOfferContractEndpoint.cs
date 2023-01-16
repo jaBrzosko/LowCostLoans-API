@@ -1,11 +1,11 @@
 using Contracts.Api.Offers;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
+using Services.Middlewares;
 using Services.Services.BlobStorages;
 
 namespace Services.Endpoints.Api.Offers;
 
-[HttpGet("/api/offers/getOfferContract")]
 public class GetOfferContractEndpoint : Endpoint<GetOfferContract, ContractDto>
 {
     private readonly BlobStorage blobStorage;
@@ -13,6 +13,12 @@ public class GetOfferContractEndpoint : Endpoint<GetOfferContract, ContractDto>
     public GetOfferContractEndpoint(BlobStorage blobStorage)
     {
         this.blobStorage = blobStorage;
+    }
+
+    public override void Configure()
+    {
+        Get("/api/offers/getOfferContract");
+        AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
     }
 
     public override async Task HandleAsync(GetOfferContract req, CancellationToken ct)
