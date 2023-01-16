@@ -42,7 +42,7 @@ public class PostLoginEndpoint : Endpoint<PostLogin, LoginResponseDto>
                 signingKey: "TokenSigningKeyTokenSigningKeyTokenSigningKey",
                 expireAt: DateTime.UtcNow.AddDays(1),
                 claims: new[] { ("UserId", employee.Id.ToString()) },
-                roles: new[] { "Admin" });
+                roles: new[] { AuthRoles.Admin });
             
             await SendAsync(new LoginResponseDto
                 {
