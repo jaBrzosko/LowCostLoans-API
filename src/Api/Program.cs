@@ -1,17 +1,19 @@
-using System.Security.Claims;
+using System.Text.Json.Serialization;
 using AspNetCore.Authentication.ApiKey;
 using Domain.Employees;
+using Contracts.Shared.Offers;
+using Contracts.Shared.Users;
 using Domain.Inquiries;
 using Domain.Offers;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
 using Services.Configurations;
 using Services.Data;
 using Services.Data.Repositories;
+using Services.DtoParsers;
 using Services.Middlewares;
 using Services.Services.BlobStorages;
 using Services.ValidationExtensions;
@@ -43,12 +45,17 @@ public class Program
         
         builder.Services.AddSwaggerDoc(s =>
         {
+            s.AllowNullableBodyParameters = true;
             s.AddAuth(ApiKeyProvider.ApiKeySchemaName, new()
             {
                 Name = ApiKeyMiddleware.ApiKeyHeaderName,
                 In = OpenApiSecurityApiKeyLocation.Header,
                 Type = OpenApiSecuritySchemeType.ApiKey,
             });
+        },
+        serializerSettings: x =>
+        {
+            x.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
         
         builder.Services.AddCors(options =>
@@ -59,7 +66,7 @@ public class Program
                     .AllowAnyMethod()
                     .AllowCredentials();
             }));
-
+        
         builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = ApiKeyProvider.ApiKeySchemaName; // I don't know what it is doing
@@ -105,6 +112,12 @@ public class Program
                         .ToList(),
                 };
             };
+
+            c.Binding.ValueParserFor<List<OfferStatusTypeDto>>(DtoListParser<OfferStatusTypeDto>.Parse);
+            c.Binding.ValueParserFor<List<GovernmentIdTypeDto>>(DtoListParser<GovernmentIdTypeDto>.Parse);
+            c.Binding.ValueParserFor<List<JobTypeDto>>(DtoListParser<JobTypeDto>.Parse);
+
+            c.Serializer.Options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
         app.UseOpenApi();
         app.UseSwaggerUi3(s => s.ConfigureDefaults());
