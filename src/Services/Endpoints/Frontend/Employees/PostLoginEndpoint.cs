@@ -3,6 +3,7 @@ using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Services.Configurations;
 using Services.Data;
 using Services.Services.AuthServices;
 
@@ -13,10 +14,12 @@ namespace Services.Endpoints.Frontend.Employees;
 public class PostLoginEndpoint : Endpoint<PostLogin, LoginResponseDto>
 {
     private readonly CoreDbContext dbContext;
+    private readonly string singingKey;
 
-    public PostLoginEndpoint(CoreDbContext dbContext)
+    public PostLoginEndpoint(CoreDbContext dbContext, JWTTokenConfiguration jwtTokenConfiguration)
     {
         this.dbContext = dbContext;
+        singingKey = jwtTokenConfiguration.SingingKey;
     }
 
     public override async Task HandleAsync(PostLogin req, CancellationToken ct)
@@ -39,8 +42,8 @@ public class PostLoginEndpoint : Endpoint<PostLogin, LoginResponseDto>
         if (AuthService.DoesPasswordsMatch(employee.PasswordHash, req.Password))
         {
             var token = JWTBearer.CreateToken(
-                signingKey: "TokenSigningKeyTokenSigningKeyTokenSigningKey",
-                expireAt: DateTime.UtcNow.AddDays(1),
+                signingKey: singingKey,
+                expireAt: DateTime.UtcNow.AddDays(10),
                 claims: new[] { ("UserId", employee.Id.ToString()) },
                 roles: new[] { AuthRoles.Admin });
             

@@ -30,6 +30,7 @@ public class Program
         
         builder.Services.AddSingleton(new BlobStorageConfiguration(builder.Configuration["BlobStorageConnectionString"]));
         builder.Services.AddSingleton(new ApiKeyConfiguration(builder.Configuration["ApiKey"]));
+        builder.Services.AddSingleton(new JWTTokenConfiguration(builder.Configuration["JWTSigningKey"]));
 
         builder.Services.AddTransient<BlobStorage>();
         
@@ -49,6 +50,15 @@ public class Program
                 Type = OpenApiSecuritySchemeType.ApiKey,
             });
         });
+        
+        builder.Services.AddCors(options =>
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.SetIsOriginAllowed(host => host.StartsWith(builder.Configuration["FrontendPrefix"]))
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            }));
 
         builder.Services.AddAuthentication(options =>
             {
@@ -61,7 +71,7 @@ public class Program
                 options.KeyName = ApiKeyMiddleware.ApiKeyHeaderName;
             });
 
-        builder.Services.AddAuthenticationJWTBearer("TokenSigningKeyTokenSigningKeyTokenSigningKey");
+        builder.Services.AddAuthenticationJWTBearer(builder.Configuration["JWTSigningKey"]);
 
         var app = builder.Build();
 
@@ -70,6 +80,11 @@ public class Program
         app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
         {
             appBuilder.UseMiddleware<ApiKeyMiddleware>();
+        });
+        
+        app.UseWhen(context => context.Request.Path.StartsWithSegments("/frontend"), appBuilder =>
+        {
+            appBuilder.UseCors();
         });
         
         app.UseAuthentication();
