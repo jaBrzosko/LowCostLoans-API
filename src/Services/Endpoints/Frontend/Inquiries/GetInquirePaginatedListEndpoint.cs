@@ -2,14 +2,12 @@ using Contracts.Common;
 using Contracts.Frontend.Inquiries;
 using Contracts.Shared.Users;
 using FastEndpoints;
-using Microsoft.AspNetCore.Authorization;
 using Services.Data;
 using Services.Endpoints.Helpers;
+using Services.Services.AuthServices;
 
 namespace Services.Endpoints.Frontend.Inquiries;
 
-[HttpGet("/frontend/inquiries/getInquireList")]
-[AllowAnonymous]
 public class GetInquirePaginatedListEndpoint : Endpoint<GetInquirePaginatedList, PaginationResultDto<InquireDto>>
 {
     private readonly CoreDbContext dbContext;
@@ -17,6 +15,12 @@ public class GetInquirePaginatedListEndpoint : Endpoint<GetInquirePaginatedList,
     public GetInquirePaginatedListEndpoint(CoreDbContext dbContext)
     {
         this.dbContext = dbContext;
+    }
+
+    public override void Configure()
+    {
+        Get("/frontend/inquiries/getInquireList");
+        Roles(AuthRoles.Admin);
     }
 
     public override async Task HandleAsync(GetInquirePaginatedList req, CancellationToken ct)

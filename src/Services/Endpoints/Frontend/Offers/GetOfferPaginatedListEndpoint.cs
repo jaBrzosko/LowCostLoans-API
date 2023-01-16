@@ -3,14 +3,12 @@ using Contracts.Frontend.Offers;
 using Contracts.Shared.Offers;
 using Domain.Offers;
 using FastEndpoints;
-using Microsoft.AspNetCore.Authorization;
 using Services.Data;
 using Services.Endpoints.Helpers;
+using Services.Services.AuthServices;
 
 namespace Services.Endpoints.Frontend.Offers;
 
-[HttpGet("/frontend/offers/getOfferList")]
-[AllowAnonymous]
 public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, PaginationResultDto<FullOfferDto>>
 {
     private readonly CoreDbContext dbContext;
@@ -18,6 +16,12 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
     public GetOfferPaginatedListEndpoint(CoreDbContext dbContext)
     {
         this.dbContext = dbContext;
+    }
+
+    public override void Configure()
+    {
+        Get("/frontend/offers/getOfferList");
+        Roles(AuthRoles.Admin);
     }
 
     public override async Task HandleAsync(GetOfferPaginatedList req, CancellationToken ct)
