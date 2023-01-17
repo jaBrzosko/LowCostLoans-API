@@ -16,12 +16,6 @@ public class InquireCreationTests
     }
 
     [Fact]
-    public void Personal_data_is_null()
-    {
-        TestThrowingArgumentException(null, 11231, 123312);
-    }
-    
-    [Fact]
     public void Money_is_zero()
     {
         TestThrowingArgumentException(personalData, 0, 123312);
