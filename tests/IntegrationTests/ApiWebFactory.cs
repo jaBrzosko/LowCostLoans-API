@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -30,7 +31,13 @@ public class ApiWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureLogging(logging => logging.ClearProviders());
-        
+
+        builder.ConfigureAppConfiguration(cfg =>
+        {
+            cfg.Properties.Add("FrontendPrefix", "http://localhost:3000");
+            cfg.Properties.Add("JWTSigningKey", "JWTSigningKeyJWTSigningKeyJWTSigningKeyJWTSigningKeyJWTSigningKeyJWTSigningKey");
+        });
+
         builder.ConfigureTestServices(services =>
         {
             var descriptor = services.SingleOrDefault(d =>

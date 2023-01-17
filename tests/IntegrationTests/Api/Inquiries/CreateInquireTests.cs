@@ -1,5 +1,6 @@
 using System.Net;
 using Contracts.Api.Inquiries;
+using Contracts.Common;
 using Contracts.Shared.Users;
 using FastEndpoints;
 using FluentAssertions;
@@ -16,7 +17,7 @@ public class CreateInquireTests : TestBase
     [Fact]
     public async Task Inquire_is_created()
     {
-        var result = await ApiClient.POSTAsync<PostCreateAnonymousInquireEndpoint, PostCreateAnonymousInquire>(new PostCreateAnonymousInquire()
+        var result = await ApiClient.POSTAsync<PostCreateAnonymousInquireEndpoint, PostCreateAnonymousInquire, PostResponseWithIdDto>(new PostCreateAnonymousInquire()
         {
             MoneyInSmallestUnit = 1000,
             NumberOfInstallments = 12,
@@ -30,13 +31,13 @@ public class CreateInquireTests : TestBase
             },
         });
 
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
     
     [Fact]
     public async Task Validation_fails_because_of_invalid_pesel()
     {
-        var result = await ApiClient.POSTAsync<PostCreateAnonymousInquireEndpoint, PostCreateAnonymousInquire>(new PostCreateAnonymousInquire()
+        var result = await ApiClient.POSTAsync<PostCreateAnonymousInquireEndpoint, PostCreateAnonymousInquire, PostResponseWithIdDto>(new PostCreateAnonymousInquire()
         {
             MoneyInSmallestUnit = 1000,
             NumberOfInstallments = 12,
@@ -50,6 +51,6 @@ public class CreateInquireTests : TestBase
             },
         });
 
-        result.StatusCode.Should().Be((HttpStatusCode)400);
+        result.response.StatusCode.Should().Be((HttpStatusCode)400);
     }
 }

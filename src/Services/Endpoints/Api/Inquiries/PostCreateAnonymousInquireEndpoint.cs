@@ -12,7 +12,7 @@ using Services.Middlewares;
 
 namespace Services.Endpoints.Api.Inquiries;
 
-public class PostCreateAnonymousInquireEndpoint : Endpoint<PostCreateAnonymousInquire>
+public class PostCreateAnonymousInquireEndpoint : Endpoint<PostCreateAnonymousInquire, PostResponseWithIdDto>
 {
     private readonly Repository<Inquire> inquiriesRepository;
     private readonly Repository<Offer> offersRepository;
