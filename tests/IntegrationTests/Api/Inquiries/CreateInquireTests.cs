@@ -9,13 +9,14 @@ using Xunit;
 
 namespace IntegrationTests.Api.Inquiries;
 
-public class CreateInquireTests : TestBase
-{
-    public CreateInquireTests(ApiWebFactory apiWebFactory) : base(apiWebFactory)
-    { }
 
+public class InquireIsCreated : TestBase
+{
+    public InquireIsCreated(ApiWebFactory apiWebFactory) : base(apiWebFactory)
+    { }
+    
     [Fact]
-    public async Task Inquire_is_created()
+    public async Task Test()
     {
         var result = await ApiClient.POSTAsync<PostCreateAnonymousInquireEndpoint, PostCreateAnonymousInquire, PostResponseWithIdDto>(new PostCreateAnonymousInquire()
         {
@@ -33,9 +34,15 @@ public class CreateInquireTests : TestBase
 
         result.response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
+}
+
+public class ValidationFailsBecauseOfInvalidPesel : TestBase
+{
+    public ValidationFailsBecauseOfInvalidPesel(ApiWebFactory apiWebFactory) : base(apiWebFactory)
+    { }
     
     [Fact]
-    public async Task Validation_fails_because_of_invalid_pesel()
+    public async Task Test()
     {
         var result = await ApiClient.POSTAsync<PostCreateAnonymousInquireEndpoint, PostCreateAnonymousInquire, PostResponseWithIdDto>(new PostCreateAnonymousInquire()
         {

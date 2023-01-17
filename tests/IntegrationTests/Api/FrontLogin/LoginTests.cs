@@ -6,14 +6,13 @@ using Services.Endpoints.Frontend.Employees;
 using Xunit;
 
 namespace IntegrationTests.Api.FrontLogin;
-
-public class LoginTests : TestBase
+public class AccountRegisters : TestBase
 {
-    public LoginTests(ApiWebFactory apiWebFactory) : base(apiWebFactory)
+    public AccountRegisters(ApiWebFactory apiWebFactory) : base(apiWebFactory)
     { }
-
+    
     [Fact]
-    public async Task Account_registers()
+    public async Task Test()
     {
         var result = await AnonymousClient.POSTAsync<PostRegisterEndpoint, PostRegister>(new PostRegister()
         {
@@ -23,9 +22,15 @@ public class LoginTests : TestBase
 
         result!.StatusCode.Should().Be(HttpStatusCode.OK);
     }
+}
+
+public class AccountDoesNotRegisterBecauseOfTooShortPassword : TestBase
+{
+    public AccountDoesNotRegisterBecauseOfTooShortPassword(ApiWebFactory apiWebFactory) : base(apiWebFactory)
+    { }
     
     [Fact]
-    public async Task Account_does_not_register_because_of_too_short_password()
+    public async Task Test()
     {
         var result = await AnonymousClient.POSTAsync<PostRegisterEndpoint, PostRegister>(new PostRegister()
         {
@@ -35,9 +40,15 @@ public class LoginTests : TestBase
 
         result!.StatusCode.Should().Be((HttpStatusCode)400);
     }
+}
+
+public class AccountDoesNotRegisterBecauseOfTakenUsername : TestBase
+{
+    public AccountDoesNotRegisterBecauseOfTakenUsername(ApiWebFactory apiWebFactory) : base(apiWebFactory)
+    { }
     
     [Fact]
-    public async Task Account_does_not_register_because_of_taken_username()
+    public async Task Test()
     {
         var result = await AnonymousClient.POSTAsync<PostRegisterEndpoint, PostRegister>(new PostRegister()
         {
@@ -46,7 +57,7 @@ public class LoginTests : TestBase
         });
 
         result!.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+    
         result = await AnonymousClient.POSTAsync<PostRegisterEndpoint, PostRegister>(new PostRegister()
         {
             UserName = "username",
@@ -55,9 +66,15 @@ public class LoginTests : TestBase
 
         result!.StatusCode.Should().Be((HttpStatusCode)400);
     }
+}
 
+public class LoginReturnsToken : TestBase
+{
+    public LoginReturnsToken(ApiWebFactory apiWebFactory) : base(apiWebFactory)
+    { }
+    
     [Fact]
-    public async Task Login_returns_token()
+    public async Task Test()
     {
         var registrationResult = await AnonymousClient.POSTAsync<PostRegisterEndpoint, PostRegister>(new PostRegister()
         {
@@ -77,9 +94,15 @@ public class LoginTests : TestBase
         loginResult.result.AreCredentialsValid.Should().BeTrue();
         loginResult.result.Token.Should().NotBeEmpty();
     }
+}
+
+public class LoginReturnsInvalidCredentials : TestBase
+{
+    public LoginReturnsInvalidCredentials(ApiWebFactory apiWebFactory) : base(apiWebFactory)
+    { }
     
     [Fact]
-    public async Task Login_returns_invalid_credentials()
+    public async Task Test()
     {
         var registrationResult = await AnonymousClient.POSTAsync<PostRegisterEndpoint, PostRegister>(new PostRegister()
         {
