@@ -1,7 +1,9 @@
 using Contracts.Common;
+using Contracts.Frontend.Inquiries;
 using Contracts.Frontend.Offers;
 using Contracts.Offers;
 using Contracts.Shared.Offers;
+using Contracts.Shared.Users;
 using Domain.Offers;
 using FastEndpoints;
 using Services.Data;
@@ -39,15 +41,38 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
         query = SortOfferQuery(query, req);
 
         var finalQuery = query
-            .Select(o => new FullOfferDto
+            .Join(
+                dbContext.Inquiries,
+                o => o.InquireId,
+                i => i.Id,
+                (o, i) => new
+                {
+                    Offer = o,
+                    Inquire = i,
+                })
+            .Select(oi => new FullOfferDto
             {
-                Id = o.Id,
-                InquireId = o.InquireId,
-                CreationTime = o.CreationTime,
-                InterestRate = o.InterestRate,
-                MoneyInSmallestUnit = o.MoneyInSmallestUnit,
-                NumberOfInstallments = o.NumberOfInstallments,
-                Status = (OfferStatusTypeDto)o.Status
+                Id = oi.Offer.Id,
+                CreationTime = oi.Offer.CreationTime,
+                InterestRate = oi.Offer.InterestRate,
+                MoneyInSmallestUnit = oi.Offer.MoneyInSmallestUnit,
+                NumberOfInstallments = oi.Offer.NumberOfInstallments,
+                Status = (OfferStatusTypeDto)oi.Offer.Status,
+                Inquire = new InquireDto()
+                {
+                    Id = oi.Inquire.Id,
+                    MoneyInSmallestUnit = oi.Inquire.MoneyInSmallestUnit,
+                    NumberOfInstallments = oi.Inquire.NumberOfInstallments,
+                    CreationTime = oi.Inquire.CreationTime,
+                    PersonalData = new PersonalDataDto()
+                    {
+                        FirstName = oi.Inquire.PersonalData.FirstName,
+                        LastName = oi.Inquire.PersonalData.LastName,
+                        GovernmentId = oi.Inquire.PersonalData.GovernmentId,
+                        GovernmentIdType = (GovernmentIdTypeDto)oi.Inquire.PersonalData.GovernmentIdType,
+                        JobType = (JobTypeDto)oi.Inquire.PersonalData.JobType,
+                    }
+                },
             });
 
         var result = await finalQuery.GetPaginatedResultAsync(req, ct);
