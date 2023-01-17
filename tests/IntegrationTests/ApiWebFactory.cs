@@ -32,12 +32,6 @@ public class ApiWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         builder.ConfigureLogging(logging => logging.ClearProviders());
 
-        builder.ConfigureAppConfiguration(cfg =>
-        {
-            cfg.Properties.Add("FrontendPrefix", "http://localhost:3000");
-            cfg.Properties.Add("JWTSigningKey", "JWTSigningKeyJWTSigningKeyJWTSigningKeyJWTSigningKeyJWTSigningKeyJWTSigningKey");
-        });
-
         builder.ConfigureTestServices(services =>
         {
             var descriptor = services.SingleOrDefault(d =>
@@ -52,9 +46,11 @@ public class ApiWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
             services.RemoveAll<BlobStorageConfiguration>();
             services.RemoveAll<ApiKeyConfiguration>();
             services.RemoveAll<BlobStorage>();
+            services.RemoveAll<JwtTokenConfiguration>();
             
             services.AddSingleton(new BlobStorageConfiguration("blob"));
             services.AddSingleton(new ApiKeyConfiguration("api-key"));
+            services.AddSingleton(new JwtTokenConfiguration("KeyKeyKeyKeyKeyKeyKeyKeyKeyKeyKeyKeyKeyKeyKey"));
             services.AddTransient<IBlobStorage, MockedBlobStorage>();
         });
     }
