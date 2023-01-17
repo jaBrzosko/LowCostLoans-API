@@ -32,7 +32,7 @@ public class Program
         
         builder.Services.AddSingleton(new BlobStorageConfiguration(builder.Configuration["BlobStorageConnectionString"]));
         builder.Services.AddSingleton(new ApiKeyConfiguration(builder.Configuration["ApiKey"]));
-        builder.Services.AddSingleton(new JWTTokenConfiguration(builder.Configuration["JWTSigningKey"]));
+        builder.Services.AddSingleton(new JwtTokenConfiguration(builder.Configuration["JWTSigningKey"]));
 
         builder.Services.AddTransient<BlobStorage>();
         

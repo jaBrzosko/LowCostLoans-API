@@ -16,10 +16,10 @@ public class PostLoginEndpoint : Endpoint<PostLogin, LoginResponseDto>
     private readonly CoreDbContext dbContext;
     private readonly string singingKey;
 
-    public PostLoginEndpoint(CoreDbContext dbContext, JWTTokenConfiguration jwtTokenConfiguration)
+    public PostLoginEndpoint(CoreDbContext dbContext, JwtTokenConfiguration jwtTokenConfiguration)
     {
         this.dbContext = dbContext;
-        singingKey = jwtTokenConfiguration.SingingKey;
+        singingKey = jwtTokenConfiguration.SigningKey;
     }
 
     public override async Task HandleAsync(PostLogin req, CancellationToken ct)
