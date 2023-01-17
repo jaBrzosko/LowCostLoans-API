@@ -10,9 +10,9 @@ namespace Services.Endpoints.Api.Offers;
 public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
 {
     private readonly CoreDbContext coreDbContext;
-    private readonly BlobStorage blobStorage;
+    private readonly IBlobStorage blobStorage;
     
-    public PostAcceptOfferEndpoint(CoreDbContext coreDbContext, BlobStorage blobStorage)
+    public PostAcceptOfferEndpoint(CoreDbContext coreDbContext, IBlobStorage blobStorage)
     {
         this.coreDbContext = coreDbContext;
         this.blobStorage = blobStorage;

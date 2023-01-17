@@ -33,7 +33,7 @@ public class Program
         builder.Services.AddSingleton(new BlobStorageConfiguration(builder.Configuration["BlobStorageConnectionString"]));
         builder.Services.AddSingleton(new ApiKeyConfiguration(builder.Configuration["ApiKey"]));
 
-        builder.Services.AddTransient<BlobStorage>();
+        builder.Services.AddTransient<IBlobStorage, BlobStorage>();
         
         builder.Services.AddScoped<Repository<Example>>();
         builder.Services.AddScoped<Repository<Inquire>>();

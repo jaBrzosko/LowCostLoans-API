@@ -2,6 +2,7 @@ using Api;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
+using IntegrationTests.MockedServices;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Services.Configurations;
 using Services.Data;
+using Services.Services.BlobStorages;
 using Xunit;
 
 namespace IntegrationTests;
@@ -42,9 +44,11 @@ public class ApiWebFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
             services.RemoveAll<BlobStorageConfiguration>();
             services.RemoveAll<ApiKeyConfiguration>();
+            services.RemoveAll<BlobStorage>();
             
-            services.AddSingleton(new BlobStorageConfiguration("DefaultEndpointsProtocol=https;AccountName=some-name;AccountKey=some-key;EndpointSuffix=core.windows.net"));
+            services.AddSingleton(new BlobStorageConfiguration("blob"));
             services.AddSingleton(new ApiKeyConfiguration("api-key"));
+            services.AddTransient<IBlobStorage, MockedBlobStorage>();
         });
     }
     

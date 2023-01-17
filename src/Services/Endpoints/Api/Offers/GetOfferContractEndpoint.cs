@@ -1,6 +1,5 @@
 using Contracts.Api.Offers;
 using FastEndpoints;
-using Microsoft.AspNetCore.Authorization;
 using Services.Services.BlobStorages;
 
 namespace Services.Endpoints.Api.Offers;
@@ -8,9 +7,9 @@ namespace Services.Endpoints.Api.Offers;
 [HttpGet("/api/offers/getOfferContract")]
 public class GetOfferContractEndpoint : Endpoint<GetOfferContract, ContractDto>
 {
-    private readonly BlobStorage blobStorage;
+    private readonly IBlobStorage blobStorage;
 
-    public GetOfferContractEndpoint(BlobStorage blobStorage)
+    public GetOfferContractEndpoint(IBlobStorage blobStorage)
     {
         this.blobStorage = blobStorage;
     }

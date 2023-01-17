@@ -6,19 +6,14 @@ namespace IntegrationTests;
 public class TestBase : IClassFixture<ApiWebFactory>
 {
     private readonly ApiWebFactory apiWebFactory;
-    protected readonly HttpClient Client;
+    protected readonly HttpClient ApiClient;
+    protected readonly HttpClient AnonymousClient;
 
     public TestBase(ApiWebFactory apiWebFactory)
     {
         this.apiWebFactory = apiWebFactory;
-        Client = apiWebFactory.CreateClient();
-    }
-}
-
-public class TestBaseWithApiKey : TestBase
-{
-    public TestBaseWithApiKey(ApiWebFactory apiWebFactory) : base(apiWebFactory)
-    {
-        Client.DefaultRequestHeaders.Add(ApiKeyMiddleware.ApiKeyHeaderName, "api-key");
+        AnonymousClient = apiWebFactory.CreateClient();
+        ApiClient = apiWebFactory.CreateClient();
+        ApiClient.DefaultRequestHeaders.Add(ApiKeyMiddleware.ApiKeyHeaderName, "api-key");
     }
 }
