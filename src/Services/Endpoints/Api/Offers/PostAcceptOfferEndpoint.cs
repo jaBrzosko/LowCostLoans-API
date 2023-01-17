@@ -3,6 +3,7 @@ using Domain.Offers;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
+using Services.Middlewares;
 using Services.Services.BlobStorages;
 
 namespace Services.Endpoints.Api.Offers;
@@ -22,6 +23,7 @@ public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
     {
         AllowFileUploads();
         Post("/api/offers/accept");
+        AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
     }
 
     public override async Task HandleAsync(PostAcceptOffer req, CancellationToken ct)

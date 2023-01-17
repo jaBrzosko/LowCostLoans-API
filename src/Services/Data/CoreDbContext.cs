@@ -1,34 +1,26 @@
-using Domain.Examples;
+using Domain.Employees;
 using Domain.Inquiries;
 using Domain.Offers;
-using Domain.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 
 namespace Services.Data;
 
 public class CoreDbContext : DbContext
 {
-    public DbSet<Example> Examples { get; set; }
     public DbSet<Inquire> Inquiries { get; set; }
     public DbSet<Offer> Offers { get; set; }
     public DbSet<OfferTemplate> OfferTemplates { get; set; }
+    public DbSet<Employee> Employees { get; set; }
 
     public CoreDbContext(DbContextOptions<CoreDbContext> options) : base(options)
     { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        ConfigureExamples(modelBuilder);
         ConfigureInquiries(modelBuilder);
         ConfigureOfferTemplates(modelBuilder);
         ConfigureOffers(modelBuilder);
-    }
-
-    private static void ConfigureExamples(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Example>().HasKey(e => e.Id);
-        modelBuilder.Entity<Example>().Property(e => e.Name).HasMaxLength(StringLengths.ShortString);
+        ConfigureEmployees(modelBuilder);
     }
 
     private static void ConfigureInquiries(ModelBuilder modelBuilder)
@@ -73,6 +65,16 @@ public class CoreDbContext : DbContext
             cfg.Property(e => e.InterestRate);
             cfg.Property(e => e.CreationTime);
             cfg.Property(e => e.Status);
+        });
+    }
+
+    private static void ConfigureEmployees(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Employee>(cfg =>
+        {
+            cfg.HasKey(e => e.Id);
+            cfg.Property(e => e.UserName).HasMaxLength(StringLengths.ShortString);
+            cfg.Property(e => e.PasswordHash).HasMaxLength(StringLengths.MediumString);
         });
     }
 }
