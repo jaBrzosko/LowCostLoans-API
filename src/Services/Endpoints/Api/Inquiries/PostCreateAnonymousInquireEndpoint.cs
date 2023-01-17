@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Services.Data;
 using Services.Data.DataMappers;
 using Services.Data.Repositories;
+using Services.Middlewares;
 
 namespace Services.Endpoints.Api.Inquiries;
 
-[HttpPost("/api/inquiries/createAnonymousInquire")]
 public class PostCreateAnonymousInquireEndpoint : Endpoint<PostCreateAnonymousInquire>
 {
     private readonly Repository<Inquire> inquiriesRepository;
@@ -26,6 +26,12 @@ public class PostCreateAnonymousInquireEndpoint : Endpoint<PostCreateAnonymousIn
         this.inquiriesRepository = inquiriesRepository;
         this.offersRepository = offersRepository;
         this.dbContext = dbContext;
+    }
+
+    public override void Configure()
+    {
+        Post("/api/inquiries/createAnonymousInquire");
+        AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
     }
 
     public override async Task HandleAsync(PostCreateAnonymousInquire req, CancellationToken ct)

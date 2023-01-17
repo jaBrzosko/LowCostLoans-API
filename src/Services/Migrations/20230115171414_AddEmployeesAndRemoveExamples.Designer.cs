@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Services.Data;
@@ -11,9 +12,10 @@ using Services.Data;
 namespace Services.Migrations
 {
     [DbContext(typeof(CoreDbContext))]
-    partial class CoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230115171414_AddEmployeesAndRemoveExamples")]
+    partial class AddEmployeesAndRemoveExamples
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,8 +159,7 @@ namespace Services.Migrations
                                 .HasForeignKey("InquireId");
                         });
 
-                    b.Navigation("PersonalData")
-                        .IsRequired();
+                    b.Navigation("PersonalData");
                 });
 #pragma warning restore 612, 618
         }

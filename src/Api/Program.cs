@@ -1,12 +1,12 @@
 using System.Text.Json.Serialization;
 using AspNetCore.Authentication.ApiKey;
+using Domain.Employees;
 using Contracts.Shared.Offers;
 using Contracts.Shared.Users;
-using Domain.Examples;
 using Domain.Inquiries;
 using Domain.Offers;
-using Domain.Users;
 using FastEndpoints;
+using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
@@ -32,13 +32,14 @@ public class Program
         
         builder.Services.AddSingleton(new BlobStorageConfiguration(builder.Configuration["BlobStorageConnectionString"]));
         builder.Services.AddSingleton(new ApiKeyConfiguration(builder.Configuration["ApiKey"]));
+        builder.Services.AddSingleton(new JwtTokenConfiguration(builder.Configuration["JWTSigningKey"]));
 
         builder.Services.AddTransient<BlobStorage>();
         
-        builder.Services.AddScoped<Repository<Example>>();
         builder.Services.AddScoped<Repository<Inquire>>();
         builder.Services.AddScoped<Repository<OfferTemplate>>();
         builder.Services.AddScoped<Repository<Offer>>();
+        builder.Services.AddScoped<Repository<Employee>>();
         
         builder.Services.AddFastEndpoints();
         
@@ -57,7 +58,15 @@ public class Program
             x.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
         
-
+        builder.Services.AddCors(options =>
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.SetIsOriginAllowed(host => host.StartsWith(builder.Configuration["FrontendPrefix"]))
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            }));
+        
         builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = ApiKeyProvider.ApiKeySchemaName; // I don't know what it is doing
@@ -69,6 +78,8 @@ public class Program
                 options.KeyName = ApiKeyMiddleware.ApiKeyHeaderName;
             });
 
+        builder.Services.AddAuthenticationJWTBearer(builder.Configuration["JWTSigningKey"]);
+
         var app = builder.Build();
 
         app.UseRouting();
@@ -76,9 +87,14 @@ public class Program
         app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
         {
             appBuilder.UseMiddleware<ApiKeyMiddleware>();
-            app.UseAuthentication();
         });
         
+        app.UseWhen(context => context.Request.Path.StartsWithSegments("/frontend"), appBuilder =>
+        {
+            appBuilder.UseCors();
+        });
+        
+        app.UseAuthentication();
         app.UseAuthorization();
         app.UseFastEndpoints(c =>
         {
