@@ -20,6 +20,15 @@ public class GetOffersByInquireIdEndpoint : Endpoint<GetOffersByInquireId, Offer
     {
         Get("/api/offers/getOffersByInquireId");
         AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for getting offers created for specific inquire";
+            s.Description = 
+                @"""
+                Endpoint for getting offers created for specific inquire.
+                Offers created for inquire with given id will be returned.
+                """;
+        });
     }
 
     public override async Task HandleAsync(GetOffersByInquireId req, CancellationToken ct)
