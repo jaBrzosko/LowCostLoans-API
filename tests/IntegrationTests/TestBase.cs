@@ -1,5 +1,7 @@
 using Contracts.Frontend.Employees;
 using FastEndpoints;
+using Microsoft.Extensions.DependencyInjection;
+using Services.Configurations;
 using Services.Endpoints.Frontend.Employees;
 using Services.Middlewares;
 using Xunit;
@@ -17,7 +19,8 @@ public class TestBase : IClassFixture<ApiWebFactory>
         this.apiWebFactory = apiWebFactory;
         AnonymousClient = apiWebFactory.CreateClient();
         ApiClient = apiWebFactory.CreateClient();
-        ApiClient.DefaultRequestHeaders.Add(ApiKeyMiddleware.ApiKeyHeaderName, "api-key");
+        var apiKeyConfiguration = apiWebFactory.Services.GetService<ApiKeyConfiguration>();
+        ApiClient.DefaultRequestHeaders.Add(ApiKeyMiddleware.ApiKeyHeaderName, apiKeyConfiguration.ApiKey);
     }
 }
 
