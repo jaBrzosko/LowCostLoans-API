@@ -21,7 +21,7 @@ public class OffersCreated : TestBaseWithFrontendAuthentication
     [Fact]
     public async Task Test()
     {
-        await CreateOfferTemplatesAsync();
+        await CreateAndAssertOfferTemplatesAsync();
         var inquireId = await CreateInquireAndEnsureCorrectnessAsync();
         var expectedOfferList = new OfferListDto()
         {
@@ -77,7 +77,7 @@ public class OffersCreated : TestBaseWithFrontendAuthentication
         return result.result.Id;
     }
 
-    private async Task CreateOfferTemplatesAsync()
+    private async Task CreateAndAssertOfferTemplatesAsync()
     {
         var result = await FrontendClient.POSTAsync<PostCreateOfferTemplateEndpoint, PostCreateOfferTemplate>(
             new PostCreateOfferTemplate()
@@ -102,5 +102,36 @@ public class OffersCreated : TestBaseWithFrontendAuthentication
             });
 
         result!.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var expectedOfferTemplates = new List<OfferTemplateDto>()
+        {
+            new()
+            {
+                InterestRate = 12,
+                MaximumNumberOfInstallments = 10,
+                MinimumNumberOfInstallments = 5,
+                MaximumMoneyInSmallestUnit = 10000,
+                MinimumMoneyInSmallestUnit = 100,
+            },
+            new()
+            {
+                InterestRate = 12,
+                MaximumNumberOfInstallments = 8,
+                MinimumNumberOfInstallments = 7,
+                MaximumMoneyInSmallestUnit = 10000,
+                MinimumMoneyInSmallestUnit = 100,
+            },
+        };
+
+        var actualOfferTemplates =
+            await FrontendClient.GETAsync<GetOffersTemplateEndpoint, GetOffersTemplate, PaginationResultDto<OfferTemplateDto>>(
+                new GetOffersTemplate()
+                {
+                    PageNumber = 0, PageSize = 10,
+                });
+
+        actualOfferTemplates.response.StatusCode.Should().Be(HttpStatusCode.OK);
+        actualOfferTemplates.result.Results.Should().BeEquivalentTo(expectedOfferTemplates,
+            options => options.Excluding(p => p.CreationTime).Excluding(p => p.Id));
     }
 }
