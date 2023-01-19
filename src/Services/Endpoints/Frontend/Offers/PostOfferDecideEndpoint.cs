@@ -1,14 +1,13 @@
+using Contracts.Frontend.Offers;
 using Domain.Offers;
 using FastEndpoints;
-using Contracts.Offers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Data;
+using Services.Services.AuthServices;
 
-namespace Services.Endpoints.Offers;
+namespace Services.Endpoints.Frontend.Offers;
 
-[HttpPost("/offers/decide")]
-[AllowAnonymous]
 public class PostOfferDecideEndpoint : Endpoint<PostOfferDecide>
 {
     private readonly CoreDbContext coreDbContext;
@@ -16,6 +15,12 @@ public class PostOfferDecideEndpoint : Endpoint<PostOfferDecide>
     public PostOfferDecideEndpoint(CoreDbContext coreDbContext)
     {
         this.coreDbContext = coreDbContext;
+    }
+
+    public override void Configure()
+    {
+        Post("/frontend/offers/decide");
+        Roles(AuthRoles.Admin);
     }
 
     public override async Task HandleAsync(PostOfferDecide req, CancellationToken ct)

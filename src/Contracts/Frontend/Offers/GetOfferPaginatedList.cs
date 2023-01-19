@@ -1,5 +1,4 @@
 using Contracts.Common;
-using Contracts.Offers;
 using Contracts.Shared.Offers;
 
 namespace Contracts.Frontend.Offers;

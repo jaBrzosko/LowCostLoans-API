@@ -1,5 +1,4 @@
 using Contracts.Common;
-using Contracts.Inquiries;
 using Contracts.Shared.Users;
 
 namespace Contracts.Frontend.Inquiries;

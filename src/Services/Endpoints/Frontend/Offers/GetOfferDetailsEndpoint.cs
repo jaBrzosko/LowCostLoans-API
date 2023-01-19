@@ -8,9 +8,9 @@ namespace Services.Endpoints.Frontend.Offers;
 
 public class GetOfferDetailsEndpoint: Endpoint<GetOfferDetails, OfferDetailsDto>
 {
-    private readonly BlobStorage blobStorage;
+    private readonly IBlobStorage blobStorage;
 
-    public GetOfferDetailsEndpoint(BlobStorage blobStorage)
+    public GetOfferDetailsEndpoint(IBlobStorage blobStorage)
     {
         this.blobStorage = blobStorage;
     }

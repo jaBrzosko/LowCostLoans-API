@@ -1,6 +1,5 @@
 using Contracts.Common;
 using Contracts.Frontend.Inquiries;
-using Contracts.Inquiries;
 using Contracts.Shared.Users;
 using Domain.Inquiries;
 using FastEndpoints;
@@ -23,6 +22,15 @@ public class GetInquirePaginatedListEndpoint : Endpoint<GetInquirePaginatedList,
     {
         Get("/frontend/inquiries/getInquireList");
         Roles(AuthRoles.Admin);
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for getting inquiries list";
+            s.Description = 
+                @"""
+                Endpoint for getting inquiries list.
+                Returned Inquire list is filtered sorted and paginated based on request.
+                """;
+        });
     }
 
     public override async Task HandleAsync(GetInquirePaginatedList req, CancellationToken ct)

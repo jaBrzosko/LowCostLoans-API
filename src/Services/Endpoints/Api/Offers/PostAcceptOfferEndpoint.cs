@@ -11,9 +11,9 @@ namespace Services.Endpoints.Api.Offers;
 public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
 {
     private readonly CoreDbContext coreDbContext;
-    private readonly BlobStorage blobStorage;
+    private readonly IBlobStorage blobStorage;
     
-    public PostAcceptOfferEndpoint(CoreDbContext coreDbContext, BlobStorage blobStorage)
+    public PostAcceptOfferEndpoint(CoreDbContext coreDbContext, IBlobStorage blobStorage)
     {
         this.coreDbContext = coreDbContext;
         this.blobStorage = blobStorage;
@@ -24,6 +24,16 @@ public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
         AllowFileUploads();
         Post("/api/offers/accept");
         AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for accepting offer";
+            s.Description = 
+                @"""
+                Endpoint for accepting offer.
+                Offer with given id will be accepted.
+                Given signed contact will be upload on blob storage.
+                """;
+        });
     }
 
     public override async Task HandleAsync(PostAcceptOffer req, CancellationToken ct)
