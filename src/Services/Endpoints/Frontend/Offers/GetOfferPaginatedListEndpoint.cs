@@ -1,7 +1,6 @@
 using Contracts.Common;
 using Contracts.Frontend.Inquiries;
 using Contracts.Frontend.Offers;
-using Contracts.Offers;
 using Contracts.Shared.Offers;
 using Contracts.Shared.Users;
 using Domain.Offers;

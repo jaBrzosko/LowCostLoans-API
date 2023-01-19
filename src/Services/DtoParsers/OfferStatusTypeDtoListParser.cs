@@ -1,4 +1,3 @@
-using Contracts.Offers;
 using FastEndpoints;
 
 namespace Services.DtoParsers;

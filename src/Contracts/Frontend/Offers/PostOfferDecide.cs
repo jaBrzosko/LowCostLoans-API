@@ -1,4 +1,4 @@
-namespace Contracts.Offers;
+namespace Contracts.Frontend.Offers;
 
 public class PostOfferDecide
 {

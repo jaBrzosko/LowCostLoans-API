@@ -1,4 +1,4 @@
-namespace Contracts.Inquiries;
+namespace Contracts.Frontend.Inquiries;
 
 public enum InquireSortEnum
 {
