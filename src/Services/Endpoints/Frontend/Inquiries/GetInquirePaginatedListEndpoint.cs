@@ -1,6 +1,5 @@
 using Contracts.Common;
 using Contracts.Frontend.Inquiries;
-using Contracts.Inquiries;
 using Contracts.Shared.Users;
 using Domain.Inquiries;
 using FastEndpoints;
