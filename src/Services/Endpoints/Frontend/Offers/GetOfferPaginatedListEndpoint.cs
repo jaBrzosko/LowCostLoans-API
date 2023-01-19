@@ -27,6 +27,15 @@ public class GetOfferPaginatedListEndpoint: Endpoint<GetOfferPaginatedList, Pagi
     {
         Get("/frontend/offers/getOfferList");
         Roles(AuthRoles.Admin);
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for getting offers list";
+            s.Description = 
+                @"""
+                Endpoint for getting offers list.
+                Returned offers list is filtered sorted and paginated based on request.
+                """;
+        });
     }
 
     public override async Task HandleAsync(GetOfferPaginatedList req, CancellationToken ct)
