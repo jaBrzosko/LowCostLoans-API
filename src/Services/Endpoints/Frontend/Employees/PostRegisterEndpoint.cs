@@ -18,7 +18,7 @@ public class PostRegisterEndpoint : Endpoint<PostRegister>
 
     public override void Configure()
     {
-        Get("/frontend/register");
+        Post("/frontend/register");
         AllowAnonymous();
         Summary(s =>
         {
