@@ -24,6 +24,16 @@ public class PostAcceptOfferEndpoint: Endpoint<PostAcceptOffer>
         AllowFileUploads();
         Post("/api/offers/accept");
         AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for accepting offer";
+            s.Description = 
+                @"""
+                Endpoint for accepting offer.
+                Offer with given id will be accepted.
+                Given signed contact will be upload on blob storage.
+                """;
+        });
     }
 
     public override async Task HandleAsync(PostAcceptOffer req, CancellationToken ct)

@@ -20,6 +20,15 @@ public class GetOfferStatusEndpoint : Endpoint<GetOfferStatus, OfferStatusDto?>
     {
         Get("/api/offers/getOfferStatus");
         AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for getting offer's status";
+            s.Description = 
+                @"""
+                Endpoint for getting offer's status.
+                Status of offer with given id will be returned.
+                """;
+        });
     }
 
     public override async Task HandleAsync(GetOfferStatus req, CancellationToken ct)

@@ -32,6 +32,15 @@ public class PostCreateAnonymousInquireEndpoint : Endpoint<PostCreateAnonymousIn
     {
         Post("/api/inquiries/createAnonymousInquire");
         AuthSchemes(ApiKeyProvider.ApiKeySchemaName);
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for creating anonymous inquire";
+            s.Description = 
+                @"""
+                Endpoint for creating anonymous inquire.
+                Offers for this inquire will be created from templates.
+                """;
+        });
     }
 
     public override async Task HandleAsync(PostCreateAnonymousInquire req, CancellationToken ct)

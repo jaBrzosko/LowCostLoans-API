@@ -19,6 +19,15 @@ public class PostCreateOfferTemplateEndpoint : Endpoint<PostCreateOfferTemplate>
     {
         Post("/frontend/offers/createOfferTemplate");
         Roles(AuthRoles.Admin);
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for creating offer template";
+            s.Description = 
+                @"""
+                Endpoint for creating offer template.
+                Created offer template will be used to create offers for inquiries.
+                """;
+        });
     }
 
     public override async Task HandleAsync(PostCreateOfferTemplate req, CancellationToken ct)
