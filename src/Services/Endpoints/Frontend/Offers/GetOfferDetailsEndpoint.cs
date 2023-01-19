@@ -17,7 +17,7 @@ public class GetOfferDetailsEndpoint: Endpoint<GetOfferDetails, OfferDetailsDto>
     
     public override void Configure()
     {
-        Get("/frontend/offers/getOfferList");
+        Get("/frontend/offers/getOfferDetails");
         Roles(AuthRoles.Admin);
     }
 
@@ -26,7 +26,7 @@ public class GetOfferDetailsEndpoint: Endpoint<GetOfferDetails, OfferDetailsDto>
         var result = new OfferDetailsDto()
         {
             Id = req.OfferId,
-            ContractUrl = blobStorage.GetBlobReadAccessLink(blobStorage.GetContractsBlobClient(), "contract.pdf"),
+            ContractUrl = blobStorage.GetBlobReadAccessLink(blobStorage.GetContractsBlobClient(), req.OfferId.ToString() + ".contract"),
         };
 
         await SendAsync(result, cancellation: ct);
