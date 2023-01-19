@@ -10,9 +10,9 @@ namespace Services.Endpoints.Offers;
 [AllowAnonymous]
 public class GetOfferContractEndpoint : Endpoint<GetOfferContract, ContractDto>
 {
-    private readonly BlobStorage blobStorage;
+    private readonly IBlobStorage blobStorage;
 
-    public GetOfferContractEndpoint(BlobStorage blobStorage)
+    public GetOfferContractEndpoint(IBlobStorage blobStorage)
     {
         this.blobStorage = blobStorage;
     }

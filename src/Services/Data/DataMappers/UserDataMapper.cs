@@ -5,13 +5,8 @@ namespace Services.Data.DataMappers;
 
 public static class UserDataMapper
 {
-    public static PersonalData? ToEntity(this PersonalDataDto? personalDataDto)
+    public static PersonalData ToEntity(this PersonalDataDto personalDataDto)
     {
-        if (personalDataDto is null)
-        {
-            return null;
-        }
-
         return new PersonalData(
             personalDataDto.FirstName,
             personalDataDto.LastName,
