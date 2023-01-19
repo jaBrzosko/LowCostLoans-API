@@ -25,24 +25,24 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         builder.Services.AddDbContext<CoreDbContext>(
             opts => opts.UseNpgsql(builder.Configuration["DatabaseConnectionString"])
         );
-        
+
         builder.Services.AddSingleton(new BlobStorageConfiguration(builder.Configuration["BlobStorageConnectionString"]));
         builder.Services.AddSingleton(new ApiKeyConfiguration(builder.Configuration["ApiKey"]));
         builder.Services.AddSingleton(new JwtTokenConfiguration(builder.Configuration["JWTSigningKey"]));
 
         builder.Services.AddTransient<BlobStorage>();
-        
+
         builder.Services.AddScoped<Repository<Inquire>>();
         builder.Services.AddScoped<Repository<OfferTemplate>>();
         builder.Services.AddScoped<Repository<Offer>>();
         builder.Services.AddScoped<Repository<Employee>>();
-        
+
         builder.Services.AddFastEndpoints();
-        
+
         builder.Services.AddSwaggerDoc(s =>
         {
             s.AllowNullableBodyParameters = true;
@@ -57,7 +57,7 @@ public class Program
         {
             x.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
-        
+
         builder.Services.AddCors(options =>
             options.AddDefaultPolicy(policy =>
             {
@@ -66,7 +66,7 @@ public class Program
                     .AllowAnyMethod()
                     .AllowCredentials();
             }));
-        
+
         builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = ApiKeyProvider.ApiKeySchemaName; // I don't know what it is doing
@@ -82,18 +82,20 @@ public class Program
 
         var app = builder.Build();
 
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         app.UseRouting();
-        
+
         app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), appBuilder =>
         {
             appBuilder.UseMiddleware<ApiKeyMiddleware>();
         });
-        
+
         app.UseWhen(context => context.Request.Path.StartsWithSegments("/frontend"), appBuilder =>
         {
             appBuilder.UseCors();
         });
-        
+
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseFastEndpoints(c =>
