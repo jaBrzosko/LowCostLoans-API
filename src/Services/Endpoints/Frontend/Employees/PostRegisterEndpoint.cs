@@ -24,5 +24,7 @@ public class PostRegisterEndpoint : Endpoint<PostRegister>
         var employee = new Employee(req.UserName, passwordHash);
 
         await employees.AddAsync(employee, ct);
+
+        await SendAsync(null, cancellation: ct);
     }
 }

@@ -34,7 +34,7 @@ public class Program
         builder.Services.AddSingleton(new ApiKeyConfiguration(builder.Configuration["ApiKey"]));
         builder.Services.AddSingleton(new JwtTokenConfiguration(builder.Configuration["JWTSigningKey"]));
 
-        builder.Services.AddTransient<BlobStorage>();
+        builder.Services.AddTransient<IBlobStorage, BlobStorage>();
         
         builder.Services.AddScoped<Repository<Inquire>>();
         builder.Services.AddScoped<Repository<OfferTemplate>>();
@@ -77,7 +77,7 @@ public class Program
                 options.Realm = "Sample Web API";
                 options.KeyName = ApiKeyMiddleware.ApiKeyHeaderName;
             });
-
+        
         builder.Services.AddAuthenticationJWTBearer(builder.Configuration["JWTSigningKey"]);
 
         var app = builder.Build();

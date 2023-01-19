@@ -7,7 +7,7 @@ using Services.Configurations;
 
 namespace Services.Services.BlobStorages;
 
-public class BlobStorage
+public class BlobStorage : IBlobStorage
 {
     private const string ContractsContainer = "contracts";
     
