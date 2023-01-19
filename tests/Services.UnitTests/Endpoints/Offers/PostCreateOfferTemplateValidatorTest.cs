@@ -1,6 +1,5 @@
-using Contracts.Offers;
-using Contracts.Users;
-using Services.Endpoints.Offers;
+using Contracts.Frontend.Offers;
+using Services.Endpoints.Frontend.Offers;
 using Services.UnitTests.Helpers;
 using Xunit;
 

@@ -1,61 +1,33 @@
-using Domain.Examples;
+using Domain.Employees;
 using Domain.Inquiries;
 using Domain.Offers;
-using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Services.Data;
 
 public class CoreDbContext : DbContext
 {
-    public DbSet<Example> Examples { get; set; }
-    public DbSet<User> Users { get; set; }
     public DbSet<Inquire> Inquiries { get; set; }
     public DbSet<Offer> Offers { get; set; }
     public DbSet<OfferTemplate> OfferTemplates { get; set; }
+    public DbSet<Employee> Employees { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseInMemoryDatabase(databaseName: "CoreDb");
-    }
+    public CoreDbContext(DbContextOptions<CoreDbContext> options) : base(options)
+    { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        ConfigureExamples(modelBuilder);
-        ConfigureUsers(modelBuilder);
         ConfigureInquiries(modelBuilder);
         ConfigureOfferTemplates(modelBuilder);
         ConfigureOffers(modelBuilder);
+        ConfigureEmployees(modelBuilder);
     }
 
-    private static void ConfigureExamples(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Example>().HasKey(e => e.Id);
-        modelBuilder.Entity<Example>().Property(e => e.Name).HasMaxLength(StringLengths.ShortString);
-    }
-    
-    private static void ConfigureUsers(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<User>(cfg =>
-        {
-            cfg.HasKey(e => e.Id);
-            cfg.OwnsOne(e => e.PersonalData, inner =>
-            {
-                inner.Property(e => e.FirstName).HasMaxLength(StringLengths.ShortString);
-                inner.Property(e => e.LastName).HasMaxLength(StringLengths.ShortString);
-                inner.Property(e => e.GovernmentId).HasMaxLength(StringLengths.MediumString);
-                inner.Property(e => e.GovernmentIdType);
-                inner.Property(e => e.JobType);
-            });
-        });
-    }
-    
     private static void ConfigureInquiries(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Inquire>(cfg =>
         {
             cfg.HasKey(e => e.Id);
-            cfg.Property(e => e.UserId);
             cfg.Property(e => e.MoneyInSmallestUnit);
             cfg.Property(e => e.NumberOfInstallments);
             cfg.Property(e => e.CreationTime);
@@ -92,6 +64,17 @@ public class CoreDbContext : DbContext
             cfg.Property(e => e.MoneyInSmallestUnit);
             cfg.Property(e => e.InterestRate);
             cfg.Property(e => e.CreationTime);
+            cfg.Property(e => e.Status);
+        });
+    }
+
+    private static void ConfigureEmployees(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Employee>(cfg =>
+        {
+            cfg.HasKey(e => e.Id);
+            cfg.Property(e => e.UserName).HasMaxLength(StringLengths.ShortString);
+            cfg.Property(e => e.PasswordHash).HasMaxLength(StringLengths.MediumString);
         });
     }
 }
