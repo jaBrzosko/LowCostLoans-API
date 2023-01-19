@@ -1,7 +1,6 @@
 using Contracts.Frontend.Employees;
 using FastEndpoints;
 using FastEndpoints.Security;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Services.Configurations;
 using Services.Data;
@@ -9,8 +8,6 @@ using Services.Services.AuthServices;
 
 namespace Services.Endpoints.Frontend.Employees;
 
-[HttpPost("/frontend/login")]
-[AllowAnonymous]
 public class PostLoginEndpoint : Endpoint<PostLogin, LoginResponseDto>
 {
     private readonly CoreDbContext dbContext;
@@ -20,6 +17,21 @@ public class PostLoginEndpoint : Endpoint<PostLogin, LoginResponseDto>
     {
         this.dbContext = dbContext;
         singingKey = jwtTokenConfiguration.SigningKey;
+    }
+
+    public override void Configure()
+    {
+        Post("/frontend/login");
+        AllowAnonymous();
+        Summary(s =>
+        {
+            s.Summary = "Endpoint for login";
+            s.Description = 
+                @"""
+                Endpoint for login.
+                For given credentials there is returned credentials validity and Token if credentials are valid.
+                """;
+        });
     }
 
     public override async Task HandleAsync(PostLogin req, CancellationToken ct)
